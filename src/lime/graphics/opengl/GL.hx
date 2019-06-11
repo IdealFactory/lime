@@ -208,6 +208,7 @@ class GL
 	public static inline var TEXTURE_CUBE_MAP_POSITIVE_Z = 0x8519;
 	public static inline var TEXTURE_CUBE_MAP_NEGATIVE_Z = 0x851A;
 	public static inline var MAX_CUBE_MAP_TEXTURE_SIZE = 0x851C;
+	public static inline var TEXTURE_CUBE_MAP_SEAMLESS = 0x884F;
 	public static inline var TEXTURE0 = 0x84C0;
 	public static inline var TEXTURE1 = 0x84C1;
 	public static inline var TEXTURE2 = 0x84C2;
@@ -2577,7 +2578,7 @@ class GL
 		context.vertexAttribIPointer(index, size, type, stride, offset);
 	}
 
-	public static inline function vertexAttribPointer(index:Int, size:Int, type:Int, normalized:Bool, stride:Int, offset:DataPointer):Void
+	public static inline function vertexAttribPointer(index:Int, size:Int, type:Int, normalized:Bool, stride:Int, offset:Int):Void
 	{
 		context.vertexAttribPointer(index, size, type, normalized, stride, offset);
 	}
