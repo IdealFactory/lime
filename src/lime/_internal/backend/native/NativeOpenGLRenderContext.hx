@@ -728,6 +728,13 @@ class NativeOpenGLRenderContext
 		#end
 	}
 
+	public function bindFragDataLocation(program:GLProgram, colorNumber:Int, name:String):Void
+	{
+		#if (lime_cffi && (lime_opengl || lime_opengles) && !macro)
+		NativeCFFI.lime_gl_bind_frag_data_location(__getObjectID(program), colorNumber, name);
+		#end
+	}
+
 	public function bindFramebuffer(target:Int, framebuffer:GLFramebuffer):Void
 	{
 		__framebufferBinding = framebuffer;

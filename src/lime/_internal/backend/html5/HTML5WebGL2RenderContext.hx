@@ -574,6 +574,7 @@ extern class HTML5WebGL2RenderContext extends WebGLRenderingContext
 	public function beginTransformFeedback(primitiveNode:Int):Void;
 	public function bindBufferBase(target:Int, index:Int, buffer:GLBuffer):Void;
 	public function bindBufferRange(target:Int, index:Int, buffer:GLBuffer, offset:DataPointer, size:DataPointer):Void;
+	public function bindFragDataLocation(program:GLProgram, colorNumber:Int, name:String):Void;
 	public function bindSampler(unit:Int, sampler:GLSampler):Void;
 	public function bindTransformFeedback(target:Int, transformFeedback:GLTransformFeedback):Void;
 	public function bindVertexArray(vertexArray:GLVertexArrayObject):Void;

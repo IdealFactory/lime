@@ -132,6 +132,13 @@ class ArrayBufferView
 	{
 		if (view != null && array == null)
 		{
+			if (view.buffer == null) {
+				#if neko
+				if (view.byteOffset == null) view.byteOffset = 0;
+				if (view.byteLength == null) view.byteLength = 0;
+				#end
+				view.buffer = new ArrayBuffer(view.byteOffset + view.byteLength);
+			}
 			buffer.blit(toByteLength(offset), view.buffer, view.byteOffset, view.byteLength);
 		}
 		else if (array != null && view == null)

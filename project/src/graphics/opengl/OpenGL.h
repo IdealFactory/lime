@@ -47,7 +47,7 @@
 
 #elif defined (HX_MACOS)
 
-//#define LIME_GLES3_API
+#define LIME_GLES3_API
 #define NEED_EXTENSIONS
 #define DYNAMIC_OGL
 #define GL_GLEXT_PROTOTYPES

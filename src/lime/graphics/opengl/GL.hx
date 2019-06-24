@@ -634,6 +634,10 @@ class GL
 		context.bindBufferRange(target, index, buffer, offset, size);
 	}
 
+	public static function bindFragDataLocation(program:GLProgram, colorNumber:Int, name:String):Void {
+		context.bindFragDataLocation(program, colorNumber, name);
+	}
+
 	public static inline function bindFramebuffer(target:Int, framebuffer:GLFramebuffer):Void
 	{
 		context.bindFramebuffer(target, framebuffer);

@@ -332,6 +332,24 @@ namespace lime {
 	}
 
 
+	void lime_gl_bind_frag_data_location (int program, int colorNumber, HxString name) {
+
+		#ifdef LIME_GLES3_API
+		glBindFragDataLocation (program, colorNumber, name.__s);
+		#endif
+
+	}
+
+
+	HL_PRIM void hl_lime_gl_bind_frag_data_location (int program, int colorNumber, hl_vstring* name) {
+
+		#ifdef LIME_GLES3_API
+		glBindFragDataLocation (program, colorNumber, name ? hl_to_utf8 (name->bytes) : NULL);
+		#endif
+
+	}
+
+
 	void lime_gl_bind_framebuffer (int target, int framebuffer) {
 
 		if (!framebuffer) {
@@ -5354,6 +5372,7 @@ namespace lime {
 	DEFINE_PRIME2v (lime_gl_bind_buffer);
 	DEFINE_PRIME3v (lime_gl_bind_buffer_base);
 	DEFINE_PRIME5v (lime_gl_bind_buffer_range);
+	DEFINE_PRIME3v (lime_gl_bind_frag_data_location);
 	DEFINE_PRIME2v (lime_gl_bind_framebuffer);
 	DEFINE_PRIME2v (lime_gl_bind_renderbuffer);
 	DEFINE_PRIME2v (lime_gl_bind_sampler);
@@ -5631,6 +5650,7 @@ namespace lime {
 	DEFINE_HL_PRIM (_VOID, lime_gl_bind_buffer, _I32 _I32);
 	DEFINE_HL_PRIM (_VOID, lime_gl_bind_buffer_base, _I32 _I32 _I32);
 	DEFINE_HL_PRIM (_VOID, lime_gl_bind_buffer_range, _I32 _I32 _I32 _F64 _I32);
+	DEFINE_HL_PRIM (_VOID, lime_gl_bind_frag_data_location, _I32 _I32 _STRING);
 	DEFINE_HL_PRIM (_VOID, lime_gl_bind_framebuffer, _I32 _I32);
 	DEFINE_HL_PRIM (_VOID, lime_gl_bind_renderbuffer, _I32 _I32);
 	DEFINE_HL_PRIM (_VOID, lime_gl_bind_sampler, _I32 _I32);

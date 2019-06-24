@@ -3694,6 +3694,11 @@ public inline function bindBufferRange(target:Int, index:Int, buffer:GLBuffer, o
 	this.bindBufferRange(target, index, buffer, offset, size);
 }
 
+public inline function bindFragDataLocation(program:GLProgram, colorNumber:Int, name:String):Void
+{
+	this.bindFragDataLocation(program, colorNumber, name);
+}
+
 public inline function bindFramebuffer(target:Int, framebuffer:GLFramebuffer):Void
 {
 	this.bindFramebuffer(target, framebuffer);

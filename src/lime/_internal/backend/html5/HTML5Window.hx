@@ -623,10 +623,12 @@ class HTML5Window
 				case "mouseup":
 					Browser.window.removeEventListener("mouseup", handleMouseEvent);
 
+					#if !heaps
 					if (event.currentTarget == parent.element)
 					{
 						event.stopPropagation();
 					}
+					#end
 
 					parent.onMouseUp.dispatch(x, y, event.button);
 
