@@ -334,7 +334,7 @@ namespace lime {
 
 	void lime_gl_bind_frag_data_location (int program, int colorNumber, HxString name) {
 
-		#ifdef LIME_GLES3_API
+		#if defined (LIME_GLES3_API) && !defined (HX_LINUX)
 		glBindFragDataLocation (program, colorNumber, name.__s);
 		#endif
 
@@ -343,7 +343,7 @@ namespace lime {
 
 	HL_PRIM void hl_lime_gl_bind_frag_data_location (int program, int colorNumber, hl_vstring* name) {
 
-		#ifdef LIME_GLES3_API
+		#if defined (LIME_GLES3_API) && !defined (HX_LINUX)
 		glBindFragDataLocation (program, colorNumber, name ? hl_to_utf8 (name->bytes) : NULL);
 		#endif
 

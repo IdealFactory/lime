@@ -113,6 +113,7 @@ OGL_EXT(glBlendEquation,void,(GLenum));
 OGL_EXT(glBlendFuncSeparate,void,(GLenum, GLenum, GLenum, GLenum));
 OGL_EXT(glBufferSubData,void,(GLenum, GLintptr, GLsizeiptr, const GLvoid *));
 OGL_EXT(glGetBufferParameteriv,void,(GLenum, GLenum, GLint *));
+OGL_EXT(glBindFragDataLocation,void,(GLuint, GLuint, const GLchar *));
 OGL_EXT(glBindFramebuffer,void,(GLenum, GLuint));
 OGL_EXT(glGenFramebuffers,void,(GLsizei, GLuint *));
 OGL_EXT(glDeleteFramebuffers,void,(GLsizei, GLuint *));
