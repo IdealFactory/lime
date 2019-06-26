@@ -73,7 +73,7 @@
 
 #elif defined (HX_WINDOWS)
 
-//#define LIME_GLES3_API
+#define LIME_GLES3_API
 #include <windows.h>
 #ifndef NATIVE_TOOLKIT_SDL_ANGLE
 #include <gl/GL.h>
