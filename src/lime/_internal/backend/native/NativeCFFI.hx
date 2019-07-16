@@ -3556,6 +3556,8 @@ class NativeCFFI
 
 	@:cffi private static function lime_gl_bind_buffer_range(target:Int, index:Int, buffer:Int, offset:DataPointer, size:Int):Void;
 
+	@:cffi private static function lime_gl_bind_frag_data_location(program:Int, index:Int, name:String):Void;
+
 	@:cffi private static function lime_gl_bind_framebuffer(target:Int, framebuffer:Int):Void;
 
 	@:cffi private static function lime_gl_bind_renderbuffer(target:Int, renderbuffer:Int):Void;
@@ -4101,6 +4103,8 @@ class NativeCFFI
 		false));
 	private static var lime_gl_bind_buffer_range = new cpp.Callable<Int->Int->Int->lime.utils.DataPointer->Int->cpp.Void>(cpp.Prime._loadPrime("lime",
 		"lime_gl_bind_buffer_range", "iiidiv", false));
+	private static var lime_gl_bind_frag_data_location = new cpp.Callable<Int->Int->String->cpp.Void>(cpp.Prime
+		._loadPrime("lime", "lime_gl_bind_frag_data_location", "iisv", false));
 	private static var lime_gl_bind_framebuffer = new cpp.Callable<Int->Int->cpp.Void>(cpp.Prime._loadPrime("lime", "lime_gl_bind_framebuffer", "iiv", false));
 	private static var lime_gl_bind_renderbuffer = new cpp.Callable<Int->Int->cpp.Void>(cpp.Prime._loadPrime("lime", "lime_gl_bind_renderbuffer", "iiv",
 		false));
@@ -4540,6 +4544,7 @@ class NativeCFFI
 	private static var lime_gl_bind_buffer = CFFI.load("lime", "lime_gl_bind_buffer", 2);
 	private static var lime_gl_bind_buffer_base = CFFI.load("lime", "lime_gl_bind_buffer_base", 3);
 	private static var lime_gl_bind_buffer_range = CFFI.load("lime", "lime_gl_bind_buffer_range", 5);
+	private static var lime_gl_bind_frag_data_location = CFFI.load("lime", "lime_gl_bind_frag_data_location", 3);
 	private static var lime_gl_bind_framebuffer = CFFI.load("lime", "lime_gl_bind_framebuffer", 2);
 	private static var lime_gl_bind_renderbuffer = CFFI.load("lime", "lime_gl_bind_renderbuffer", 2);
 	private static var lime_gl_bind_sampler = CFFI.load("lime", "lime_gl_bind_sampler", 2);
@@ -4820,6 +4825,8 @@ class NativeCFFI
 
 	@:hlNative("lime", "lime_gl_bind_buffer_range") private static function lime_gl_bind_buffer_range(target:Int, index:Int, buffer:Int, offset:DataPointer,
 		size:Int):Void {}
+
+	@:hlNative("lime", "lime_gl_bind_frag_data_location") private static function lime_gl_bind_frag_data_location(program:Int, colorNumber:Int, name:String):Void {}
 
 	@:hlNative("lime", "lime_gl_bind_framebuffer") private static function lime_gl_bind_framebuffer(target:Int, framebuffer:Int):Void {}
 

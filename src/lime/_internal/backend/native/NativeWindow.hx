@@ -101,6 +101,9 @@ class NativeWindow
 		if (contextAttributes.hardware) flags |= cast WindowFlags.WINDOW_FLAG_HARDWARE;
 		if (contextAttributes.stencil) flags |= cast WindowFlags.WINDOW_FLAG_STENCIL_BUFFER;
 		if (contextAttributes.vsync) flags |= cast WindowFlags.WINDOW_FLAG_VSYNC;
+		#if glcoreprofile
+		flags |= cast WindowFlags.WINDOW_FLAG_OPENGL_CORE_PROFILE;
+		#end
 
 		var width = Reflect.hasField(attributes, "width") ? attributes.width : #if desktop 800 #else 0 #end;
 		var height = Reflect.hasField(attributes, "height") ? attributes.height : #if desktop 600 #else 0 #end;
@@ -150,6 +153,23 @@ class NativeWindow
 					context.gles3 = gl;
 					context.webgl2 = gl;
 				}
+
+				context.shaderVersion = 120;
+				context.glES = null;
+
+				#if glcoreprofile
+				var ereg = ~/[0-9]+\.[0-9]+/;
+				var shaderVersionString : String = gl.getParameter(gl.SHADING_LANGUAGE_VERSION);
+				if( ereg.match(shaderVersionString) ) {
+					context.shaderVersion = Math.round( Std.parseFloat(ereg.matched(0)) * 100 );
+				}
+
+				var v:String = gl.getParameter(gl.VERSION);
+				ereg = ~/ES ([0-9]+\.[0-9]+)/;
+				if (ereg.match(v)) context.glES = Std.parseFloat(ereg.matched(1));
+				#end
+				trace("context.shaderVersion=" + context.shaderVersion);
+				trace("context.glES=" + context.glES);
 
 				if (GL.context == null)
 				{
@@ -700,4 +720,5 @@ class NativeWindow
 	var WINDOW_FLAG_MAXIMIZED = 0x00004000;
 	var WINDOW_FLAG_ALWAYS_ON_TOP = 0x00008000;
 	var WINDOW_FLAG_COLOR_DEPTH_32_BIT = 0x00010000;
+	var WINDOW_FLAG_OPENGL_CORE_PROFILE = 0x00020000;
 }

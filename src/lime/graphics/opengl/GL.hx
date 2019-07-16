@@ -187,6 +187,7 @@ class GL
 	public static inline var RENDERER = 0x1F01;
 	public static inline var VERSION = 0x1F02;
 	public static inline var EXTENSIONS = 0x1F03;
+	public static inline var NUM_EXTENSIONS = 0x821D;
 	public static inline var NEAREST = 0x2600;
 	public static inline var LINEAR = 0x2601;
 	public static inline var NEAREST_MIPMAP_NEAREST = 0x2700;
@@ -330,6 +331,8 @@ class GL
 	public static inline var UNPACK_SKIP_IMAGES = 0x806D;
 	public static inline var UNPACK_IMAGE_HEIGHT = 0x806E;
 	public static inline var MAX_3D_TEXTURE_SIZE = 0x8073;
+	public static inline var BGR = 0x80E0;
+	public static inline var BGRA = 0x80E1;
 	public static inline var MAX_ELEMENTS_VERTICES = 0x80E8;
 	public static inline var MAX_ELEMENTS_INDICES = 0x80E9;
 	public static inline var MAX_TEXTURE_LOD_BIAS = 0x84FD;

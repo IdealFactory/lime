@@ -712,6 +712,7 @@ class AssetLibrary
 		var basePath = manifest.rootPath;
 		if (basePath == null) basePath = "";
 		if (basePath != "") basePath += "/";
+		basePath = "./";
 
 		for (asset in manifest.assets)
 		{

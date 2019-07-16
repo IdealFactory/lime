@@ -72,6 +72,8 @@ class RenderContext
 	public var type(default, null):RenderContextType;
 
 	public var version(default, null):String;
+	public var shaderVersion(default, null):Int;
+	public var glES(default, null):Null<Float>;
 
 	/**
 		Access to the current WebGL render API, if available
