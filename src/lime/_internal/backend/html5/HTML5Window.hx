@@ -331,7 +331,6 @@ class HTML5Window
 				context.shaderVersion = 120;
 				context.glES = null;
 
-				#if glcoreprofile
 				var ereg = ~/[0-9]+\.[0-9]+/;
 				var shaderVersionString : String = webgl.getParameter(webgl.SHADING_LANGUAGE_VERSION);
 				if( ereg.match(shaderVersionString) ) {
@@ -341,8 +340,7 @@ class HTML5Window
 				var v:String = webgl.getParameter(webgl.VERSION);
 				ereg = ~/ES ([0-9]+\.[0-9]+)/;
 				if (ereg.match(v)) context.glES = Std.parseFloat(ereg.matched(1));
-				trace("webglES=" + context.glES);
-				#end
+				trace("version="+context.version+" shader="+context.shaderVersion+" glES=" + context.glES+ " v="+v);
 			}
 		}
 
