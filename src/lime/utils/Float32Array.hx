@@ -144,7 +144,7 @@ abstract Float32Array(ArrayBufferView) from ArrayBufferView to ArrayBufferView
 		return this != null ? 'Float32Array [byteLength:${this.byteLength}, length:${this.length}]' : null;
 
 	@:extern inline function get_length()
-		#if neko
+		#if (neko || macro)
 		return this.length != null ? this.length : 0;
 		#else
 		return this.length;
