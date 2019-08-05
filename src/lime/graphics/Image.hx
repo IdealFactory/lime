@@ -448,10 +448,16 @@ class Image
 			sourceImage = clone();
 		}
 
+		if (alphaImage == sourceImage && (alphaPoint == null || (alphaPoint.x == 0 && alphaPoint.y == 0)))
+		{
+			alphaImage = null;
+			alphaPoint = null;
+		}
+
 		switch (type)
 		{
 			case CANVAS:
-				if (alphaImage != null || sourceImage.type != CANVAS)
+				if (alphaImage != null)
 				{
 					ImageCanvasUtil.convertToData(this);
 					ImageCanvasUtil.convertToData(sourceImage);
