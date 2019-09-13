@@ -7,8 +7,8 @@ package lime.app;
 // import lime.ui.GamepadButton;
 // import lime.ui.Joystick;
 // import lime.ui.JoystickHatPosition;
-// import lime.ui.KeyCode;
-// import lime.ui.KeyModifier;
+import lime.ui.KeyCode;
+import lime.ui.KeyModifier;
 import lime.ui.MouseButton;
 import lime.ui.MouseWheelMode;
 // import lime.ui.Touch;
@@ -71,8 +71,19 @@ class HeapsContainerApplication extends lime.app.Application
 	// override public function onJoystickDisconnect(joystick:Joystick):Void {}
 	// override public function onJoystickHatMove(joystick:Joystick, hat:Int, position:JoystickHatPosition):Void {}
 	// override public function onJoystickTrackballMove(joystick:Joystick, trackball:Int, x:Float, y:Float):Void {}
-	// override public function onKeyDown(keyCode:KeyCode, modifier:KeyModifier):Void {}
-	// override public function onKeyUp(keyCode:KeyCode, modifier:KeyModifier):Void {}
+	override public function onKeyDown(keyCode:KeyCode, modifier:KeyModifier):Void {
+		var e = new Event(EKeyDown, mouseX, mouseY);
+		e.keyCode = keyCode;
+		e.charCode = modifier;
+		Window.getInstance().event(e);
+	}
+
+	override public function onKeyUp(keyCode:KeyCode, modifier:KeyModifier):Void {
+		var e = new Event(EKeyUp, mouseX, mouseY);
+		e.keyCode = keyCode;
+		e.charCode = modifier;
+		Window.getInstance().event(e);
+	}
 
 	override public function onMouseDown(x:Float, y:Float, button:MouseButton):Void
 	{
