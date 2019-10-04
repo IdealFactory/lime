@@ -59,6 +59,7 @@ class HeapsContainerApplication extends lime.app.Application
 		#end
 	}
 
+	#if (!js && !flash)
 	// override public function onGamepadAxisMove(gamepad:Gamepad, axis:GamepadAxis, value:Float):Void {}
 	// override public function onGamepadButtonDown(gamepad:Gamepad, button:GamepadButton):Void {}
 	// override public function onGamepadButtonUp(gamepad:Gamepad, button:GamepadButton):Void {}
@@ -115,7 +116,7 @@ class HeapsContainerApplication extends lime.app.Application
 		if (deltaY != 0)
 		{
 			var e = new Event(EWheel, mouseX, mouseY);
-			e.wheelDelta = deltaY;
+			e.wheelDelta = -deltaY;
 			Window.getInstance().event(e);
 		}
 	}
@@ -135,14 +136,6 @@ class HeapsContainerApplication extends lime.app.Application
 	override public function onWindowActivate():Void {}
 
 	override public function onWindowClose():Void {}
-
-	override public function onWindowCreate():Void
-	{
-		Window.CURRENT = this;
-
-		if (_appClass != null)
-			initHeapsApp( _appClass );
-	}
 
 	override public function onWindowDeactivate():Void {}
 
@@ -178,4 +171,13 @@ class HeapsContainerApplication extends lime.app.Application
 	}
 
 	override public function onWindowRestore():Void {}
+	#end
+
+	override public function onWindowCreate():Void
+	{
+		Window.CURRENT = this;
+
+		if (_appClass != null)
+			initHeapsApp( _appClass );
+	}
 }
