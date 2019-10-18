@@ -101,7 +101,7 @@ class NativeWindow
 		if (contextAttributes.hardware) flags |= cast WindowFlags.WINDOW_FLAG_HARDWARE;
 		if (contextAttributes.stencil) flags |= cast WindowFlags.WINDOW_FLAG_STENCIL_BUFFER;
 		if (contextAttributes.vsync) flags |= cast WindowFlags.WINDOW_FLAG_VSYNC;
-		#if glcoreprofile
+		#if useGLSL300es
 		flags |= cast WindowFlags.WINDOW_FLAG_OPENGL_CORE_PROFILE;
 		#end
 
@@ -157,6 +157,7 @@ class NativeWindow
 				context.shaderVersion = 120;
 				context.glES = null;
 
+				#if (useGLSL300es)
 				var ereg = ~/[0-9]+\.[0-9]+/;
 				var shaderVersionString : String = gl.getParameter(gl.SHADING_LANGUAGE_VERSION);
 				if( ereg.match(shaderVersionString) ) {
@@ -166,7 +167,8 @@ class NativeWindow
 				var v:String = gl.getParameter(gl.VERSION);
 				ereg = ~/ES ([0-9]+\.[0-9]+)/;
 				if (ereg.match(v)) context.glES = Std.parseFloat(ereg.matched(1));
-				trace("version="+context.version+" shader="+context.shaderVersion+" glES=" + context.glES+ " v="+v);
+				#end
+				trace("version="+context.version+" shader="+context.shaderVersion+" glES=" + context.glES);
 
 				if (GL.context == null)
 				{

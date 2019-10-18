@@ -657,7 +657,7 @@ class NativeOpenGLRenderContext
 		version = 2;
 		#end
 
-		#if (glcoreprofile && openfl)
+		#if (useGLSL300es && openfl)
 		if (type == OPENGL)
 		{
 			__commonVA = createVertexArray();
