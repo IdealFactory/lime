@@ -33,6 +33,8 @@ class HeapsContainerApplication extends lime.app.Application
 	var mouseX:Float = 0;
 	var mouseY:Float = 0;
 
+	public var appInstance:Dynamic;
+
 	public function new(?appClass:Class<Dynamic>)
 	{
 		_appClass = appClass;
@@ -45,7 +47,7 @@ class HeapsContainerApplication extends lime.app.Application
 	public function initHeapsApp( appClass:Class<Dynamic> ) {
 		_appClass = appClass;
 		if (_appClass != null && Window.CURRENT != null) {
-			cast Type.createInstance( _appClass, [] );
+			appInstance = cast Type.createInstance( _appClass, [] );
 		} else {
 			trace("Lime Window.CURRENT not set. Heaps App will not be able to render to this Lime backend. Wait for 'onWindowCreate' to complete.");
 			trace(haxe.CallStack.callStack());
