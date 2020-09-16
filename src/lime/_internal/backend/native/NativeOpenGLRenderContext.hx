@@ -1873,13 +1873,18 @@ class NativeOpenGLRenderContext
 			case GL.FRAMEBUFFER_BINDING:
 				var data:GLFramebuffer = getInteger(pname);
 				return data;
+			
+			case GL.RENDERBUFFER_BINDING:
+				var data:GLRenderbuffer = getInteger(pname);
+				return data;
 
 			case GL.TEXTURE_BINDING_2D, GL.TEXTURE_BINDING_CUBE_MAP:
 				var data:GLTexture = getInteger(pname);
 				return data;
 
 			default:
-				return null;
+				return getInteger(pname);
+				// return null;
 		}
 	}
 
@@ -3406,6 +3411,7 @@ class NativeOpenGLRenderContext
 			__extensionObjectConstructors["NV_read_stencil"] = NV_read_stencil.new;
 			__extensionObjectConstructors["NV_texture_compression_s3tc_update"] = NV_texture_compression_s3tc_update.new;
 			__extensionObjectConstructors["NV_texture_npot_2D_mipmap"] = NV_texture_npot_2D_mipmap.new;
+			__extensionObjectConstructors["NVX_gpu_memory_info"] = NVX_gpu_memory_info.new;
 			__extensionObjectConstructors["OES_EGL_image"] = OES_EGL_image.new;
 			__extensionObjectConstructors["OES_EGL_image_external"] = OES_EGL_image_external.new;
 			__extensionObjectConstructors["OES_compressed_ETC1_RGB8_texture"] = OES_compressed_ETC1_RGB8_texture.new;
