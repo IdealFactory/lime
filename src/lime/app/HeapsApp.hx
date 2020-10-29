@@ -56,7 +56,7 @@ class HeapsApp {
 	}
 
 	public function onWindowResize(width:Int, height:Int):Void {
-		#if (!js && !flash)
+		#if (!flash)
 		var window = Window.getInstance();
 		@:privateAccess window.windowWidth = width;
 		@:privateAccess window.windowHeight = height;

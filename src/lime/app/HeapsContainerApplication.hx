@@ -57,7 +57,9 @@ class HeapsContainerApplication extends lime.app.Application
 	override public function update(deltaTime:Int):Void
 	{
 		#if (!js && !flash)
+		trace("STARTING FRAME RENDER #######################################");
 		@:privateAccess System.mainLoop();
+		trace(" - FRAME RENDERED     #######################################");
 		#end
 	}
 

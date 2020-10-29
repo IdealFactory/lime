@@ -147,6 +147,10 @@ class NativeWindow
 				context.webgl = gl;
 				context.type = gl.type;
 				context.version = Std.string(gl.version);
+				trace("Context.gles2:"+context.gles2);
+				trace("Context.webgl:"+context.webgl);
+				trace("Context.type:"+context.type);
+				trace("Context.version:"+context.version);
 
 				if (gl.type == OPENGLES && gl.version >= 3)
 				{
@@ -160,6 +164,7 @@ class NativeWindow
 				#if (useGLSL300es)
 				var ereg = ~/[0-9]+\.[0-9]+/;
 				var shaderVersionString : String = gl.getParameter(gl.SHADING_LANGUAGE_VERSION);
+				trace("ShaderVersionString:"+shaderVersionString);
 				if( ereg.match(shaderVersionString) ) {
 					context.shaderVersion = Math.round( Std.parseFloat(ereg.matched(0)) * 100 );
 				}

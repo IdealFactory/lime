@@ -3971,7 +3971,7 @@ abstract WebGL2RenderContext(Dynamic) from Dynamic to Dynamic
 						return this.createVertexArray();
 					}
 
-					public inline function cullFace(mode:Int):Void
+					public function cullFace(mode:Int):Void
 					{
 						this.cullFace(mode);
 					}
