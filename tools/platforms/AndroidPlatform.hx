@@ -71,8 +71,8 @@ class AndroidPlatform extends PlatformTarget
 
 		for (architecture in architectures)
 		{
-			var haxeParams = [hxml, "-D", "android", "-D", "PLATFORM=android-16"];
-			var cppParams = ["-Dandroid", "-DPLATFORM=android-16"];
+			var haxeParams = [hxml, "-D", "android", "-D", "PLATFORM=android-19"];
+			var cppParams = ["-Dandroid", "-DPLATFORM=android-19"];
 			var path = sourceSet + "/jniLibs/armeabi";
 			var suffix = ".so";
 
@@ -239,7 +239,7 @@ class AndroidPlatform extends PlatformTarget
 		{
 			build = "release";
 		}
-		
+
 		if (project.environment.exists("ANDROID_GRADLE_TASK"))
 		{
 			var task = project.environment.get("ANDROID_GRADLE_TASK");
