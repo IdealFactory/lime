@@ -135,7 +135,7 @@ namespace lime {
 
 					case TYPE_RENDERBUFFER:
 
-						if (glIsProgram (id)) glDeleteRenderbuffers (1, &id);
+						if (glIsRenderbuffer (id)) glDeleteRenderbuffers (1, &id);
 						break;
 
 					#ifdef LIME_GLES3_API
@@ -334,7 +334,7 @@ namespace lime {
 
 	void lime_gl_bind_frag_data_location (int program, int colorNumber, HxString name) {
 
-		#if defined (LIME_GLES3_API) && !defined (HX_LINUX) && !defined (ANDROID)
+		#if defined (LIME_GLES3_API) && !defined (HX_LINUX) && !defined (ANDROID) && !defined (IPHONE)
 		glBindFragDataLocation (program, colorNumber, name.__s);
 		#endif
 
@@ -343,7 +343,7 @@ namespace lime {
 
 	HL_PRIM void hl_lime_gl_bind_frag_data_location (int program, int colorNumber, hl_vstring* name) {
 
-		#if defined (LIME_GLES3_API) && !defined (HX_LINUX) && !defined (ANDROID)
+		#if defined (LIME_GLES3_API) && !defined (HX_LINUX) && !defined (ANDROID) && !defined (IPHONE)
 		glBindFragDataLocation (program, colorNumber, name ? hl_to_utf8 (name->bytes) : NULL);
 		#endif
 

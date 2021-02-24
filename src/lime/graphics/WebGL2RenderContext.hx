@@ -199,10 +199,10 @@ abstract WebGL2RenderContext(HTML5WebGL2RenderContext) from HTML5WebGL2RenderCon
 			this.uniform4fv(location, data);
 		}
 		var ge = 0;
-		if (ctr++ < 2000) {
-			trace("uniform4fv: getError="+ge+" location="+location+" data("+Type.getClassName(Type.getClass(data))+")="+data+" srcOffset="+srcOffset+" srcLength="+srcLength);
-			trace(" - stack:"+haxe.CallStack.callStack());
-		}
+		// if (ctr++ < 2000) {
+		// 	trace("uniform4fv: getError="+ge+" location="+location+" data("+Type.getClassName(Type.getClass(data))+")="+data+" srcOffset="+srcOffset+" srcLength="+srcLength);
+		// 	trace(" - stack:"+haxe.CallStack.callStack());
+		// }
 	}
 
 	public inline function uniform4iv(location:GLUniformLocation, data:Dynamic, ?srcOffset:Int, ?srcLength:Int):Void
