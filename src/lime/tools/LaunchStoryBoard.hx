@@ -64,3 +64,4 @@ class ImageSet extends LaunchStoryboardAsset
 		this.name = name;
 	}
 }
+
