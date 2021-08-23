@@ -14,6 +14,7 @@ import js.html.MouseEvent;
 import js.html.Node;
 import js.html.TouchEvent;
 import js.html.ClipboardEvent;
+import js.html.VisualViewport;
 import js.Browser;
 import lime._internal.graphics.ImageCanvasUtil;
 import lime.app.Application;
@@ -72,6 +73,7 @@ class HTML5Window
 	private var setWidth:Int;
 	private var textInputEnabled:Bool;
 	private var unusedTouchesPool = new List<Touch>();
+	private var visualViewport:VisualViewport;
 
 	public function new(parent:Window)
 	{
@@ -705,6 +707,13 @@ class HTML5Window
 		}
 	}
 
+	private function handleViewportResizeEvent(event:js.html.Event):Void
+	{
+		primaryTouch = null;
+		visualViewport = cast event.currentTarget;
+		updateSize();
+	}
+
 	private function handleResizeEvent(event:js.html.Event):Void
 	{
 		primaryTouch = null;
@@ -1182,7 +1191,12 @@ class HTML5Window
 
 		var elementWidth, elementHeight;
 
-		if (parent.element != null)
+		if (visualViewport != null)
+		{
+			elementWidth = Std.int(visualViewport.width);
+			elementHeight = Std.int(visualViewport.height);
+		}
+		else if (parent.element != null)
 		{
 			elementWidth = parent.element.clientWidth;
 			elementHeight = parent.element.clientHeight;

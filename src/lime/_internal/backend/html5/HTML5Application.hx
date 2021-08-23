@@ -3,6 +3,7 @@ package lime._internal.backend.html5;
 import js.html.DeviceMotionEvent;
 import js.html.KeyboardEvent;
 import js.Browser;
+import js.html.VisualViewport;
 import lime.app.Application;
 import lime.media.AudioManager;
 import lime.system.Sensor;
@@ -274,7 +275,11 @@ class HTML5Application
 		Browser.window.addEventListener("keyup", handleKeyEvent, false);
 		Browser.window.addEventListener("focus", handleWindowEvent, false);
 		Browser.window.addEventListener("blur", handleWindowEvent, false);
-		Browser.window.addEventListener("resize", handleWindowEvent, false);
+		var v:VisualViewport = untyped __js__("window.visualViewport");
+		if (v != null)
+			v.addEventListener("resize", handleViewportEvent, false);
+		else
+			Browser.window.addEventListener("resize", handleWindowEvent, false);
 		Browser.window.addEventListener("beforeunload", handleWindowEvent, false);
 		Browser.window.addEventListener("devicemotion", handleSensorEvent, false);
 
@@ -432,6 +437,18 @@ class HTML5Application
 	private function handleSensorEvent(event:DeviceMotionEvent):Void
 	{
 		accelerometer.onUpdate.dispatch(event.accelerationIncludingGravity.x, event.accelerationIncludingGravity.y, event.accelerationIncludingGravity.z);
+	}
+
+	private function handleViewportEvent(event:js.html.Event):Void
+	{
+		if (parent.window != null)
+		{
+			switch (event.type)
+			{
+				case "resize":
+					parent.window.__backend.handleViewportResizeEvent(event);
+			}
+		}
 	}
 
 	private function handleWindowEvent(event:js.html.Event):Void
