@@ -4,6 +4,7 @@ import haxe.Timer;
 import js.html.webgl.RenderingContext;
 import js.html.CanvasElement;
 import js.html.DivElement;
+import js.html.CustomEvent;
 import js.html.DragEvent;
 import js.html.Element;
 import js.html.FocusEvent;
@@ -34,6 +35,11 @@ import lime.ui.MouseCursor;
 import lime.ui.MouseWheelMode;
 import lime.ui.Touch;
 import lime.ui.Window;
+
+typedef ViewportSize = {
+	width:Int,
+	height:Int
+}
 
 @:access(lime._internal.backend.html5.HTML5Application)
 @:access(lime._internal.backend.html5.HTML5WebGL2RenderContext)
@@ -73,7 +79,7 @@ class HTML5Window
 	private var setWidth:Int;
 	private var textInputEnabled:Bool;
 	private var unusedTouchesPool = new List<Touch>();
-	private var visualViewport:VisualViewport;
+	private var visualViewportSize:ViewportSize;
 
 	public function new(parent:Window)
 	{
@@ -710,7 +716,16 @@ class HTML5Window
 	private function handleViewportResizeEvent(event:js.html.Event):Void
 	{
 		primaryTouch = null;
-		visualViewport = cast event.currentTarget;
+		if (visualViewportSize == null) visualViewportSize = { width:0, height:0 };
+		var target:Dynamic = cast event.currentTarget;
+		var customEvent:CustomEvent = cast event;
+		if (Std.is(event, CustomEvent) && customEvent.detail != null) {
+			visualViewportSize.width = customEvent.detail.width;
+			visualViewportSize.height = customEvent.detail.height;
+		} else {
+			visualViewportSize.width = target.width;
+			visualViewportSize.height = target.height;
+		}
 		updateSize();
 	}
 
@@ -1191,10 +1206,10 @@ class HTML5Window
 
 		var elementWidth, elementHeight;
 
-		if (visualViewport != null)
+		if (visualViewportSize != null)
 		{
-			elementWidth = Std.int(visualViewport.width);
-			elementHeight = Std.int(visualViewport.height);
+			elementWidth = visualViewportSize.width;
+			elementHeight = visualViewportSize.height;
 		}
 		else if (parent.element != null)
 		{

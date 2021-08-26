@@ -275,6 +275,7 @@ class HTML5Application
 		Browser.window.addEventListener("keyup", handleKeyEvent, false);
 		Browser.window.addEventListener("focus", handleWindowEvent, false);
 		Browser.window.addEventListener("blur", handleWindowEvent, false);
+		Browser.window.addEventListener('viewportresize', handleViewportEvent, false);
 		var v:VisualViewport = untyped __js__("window.visualViewport");
 		if (v != null)
 			v.addEventListener("resize", handleViewportEvent, false);
@@ -446,6 +447,8 @@ class HTML5Application
 			switch (event.type)
 			{
 				case "resize":
+					parent.window.__backend.handleViewportResizeEvent(event);
+				case "viewportresize":
 					parent.window.__backend.handleViewportResizeEvent(event);
 			}
 		}
