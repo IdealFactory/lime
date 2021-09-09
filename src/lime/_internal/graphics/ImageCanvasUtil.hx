@@ -107,6 +107,7 @@ class ImageCanvasUtil
 
 		if (clear)
 		{
+			if (image.buffer.__srcCanvas!=null) { image.buffer.__srcCanvas.width = image.buffer.__srcCanvas.height = 1; }
 			image.buffer.__srcCanvas = null;
 			image.buffer.__srcContext = null;
 		}
@@ -317,6 +318,7 @@ class ImageCanvasUtil
 		{
 			convertToCanvas(image, true);
 			var sourceCanvas = buffer.__srcCanvas;
+			if (buffer.__srcCanvas!=null) buffer.__srcCanvas.width = buffer.__srcCanvas.height = 1;
 			buffer.__srcCanvas = null;
 			createCanvas(image, newWidth, newHeight);
 			buffer.__srcContext.drawImage(sourceCanvas, 0, 0, newWidth, newHeight);

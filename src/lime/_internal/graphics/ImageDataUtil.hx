@@ -1050,6 +1050,7 @@ class ImageDataUtil
 		#if (js && html5)
 		buffer.__srcImage = null;
 		buffer.__srcImageData = null;
+		if (buffer.__srcCanvas!=null) buffer.__srcCanvas.width = buffer.__srcCanvas.height = 1;
 		buffer.__srcCanvas = null;
 		buffer.__srcContext = null;
 		#end
@@ -1086,6 +1087,7 @@ class ImageDataUtil
 		#if (js && html5)
 		buffer.__srcImage = null;
 		buffer.__srcImageData = null;
+		if (buffer.__srcCanvas!=null) buffer.__srcCanvas.width = buffer.__srcCanvas.height = 1;
 		buffer.__srcCanvas = null;
 		buffer.__srcContext = null;
 		#end
