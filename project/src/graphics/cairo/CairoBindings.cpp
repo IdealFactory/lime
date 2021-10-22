@@ -2121,6 +2121,71 @@ namespace lime {
 
 	}
 
+	value lime_cairo_text_extents (value handle, HxString text) {
+
+		cairo_text_extents_t text_extents;
+		cairo_text_extents ((cairo_t*)val_data (handle), (char*)text.__s, &text_extents);
+
+		value result = alloc_array (6);
+		val_array_set_i (result, 0, alloc_float (text_extents.x_bearing) );
+		val_array_set_i (result, 1, alloc_float (text_extents.y_bearing) );
+		val_array_set_i (result, 2, alloc_float (text_extents.width) );
+		val_array_set_i (result, 3, alloc_float (text_extents.height) );
+		val_array_set_i (result, 4, alloc_float (text_extents.x_advance) );
+		val_array_set_i (result, 5, alloc_float (text_extents.y_advance) );
+
+		return result;
+	}
+
+
+	HL_PRIM varray* hl_lime_cairo_text_extents (HL_CFFIPointer* handle, hl_vstring* text) {
+
+		cairo_text_extents_t text_extents;
+		cairo_text_extents ((cairo_t*)handle->ptr, (char*)hl_to_utf8 ((const uchar*)text->bytes), &text_extents);
+
+		varray* result = hl_alloc_array (&hlt_f64, 6);
+		hl_aptr (result, double)[0] = text_extents.x_bearing;
+		hl_aptr (result, double)[1] = text_extents.y_bearing;
+		hl_aptr (result, double)[2] = text_extents.width;
+		hl_aptr (result, double)[3] = text_extents.height;
+		hl_aptr (result, double)[4] = text_extents.x_advance;
+		hl_aptr (result, double)[5] = text_extents.y_advance;
+
+		return result;
+
+	}
+
+	value lime_cairo_font_extents (value handle) {
+
+		cairo_font_extents_t font_extents;
+		cairo_font_extents ((cairo_t*)val_data (handle), &font_extents);
+
+		value result = alloc_array (6);
+		val_array_set_i (result, 0, alloc_float (font_extents.ascent) );
+		val_array_set_i (result, 1, alloc_float (font_extents.descent) );
+		val_array_set_i (result, 2, alloc_float (font_extents.height) );
+		val_array_set_i (result, 3, alloc_float (font_extents.max_x_advance) );
+		val_array_set_i (result, 4, alloc_float (font_extents.max_y_advance) );
+
+		return result;
+	}
+
+
+	HL_PRIM varray* hl_lime_cairo_font_extents (HL_CFFIPointer* handle) {
+
+		cairo_font_extents_t font_extents;
+		cairo_font_extents ((cairo_t*)handle->ptr, &font_extents);
+
+		varray* result = hl_alloc_array (&hlt_f64, 6);
+		hl_aptr (result, double)[0] = font_extents.ascent;
+		hl_aptr (result, double)[1] = font_extents.descent;
+		hl_aptr (result, double)[2] = font_extents.height;
+		hl_aptr (result, double)[3] = font_extents.max_x_advance;
+		hl_aptr (result, double)[4] = font_extents.max_y_advance;
+
+		return result;
+
+	}
 
 	int lime_cairo_status (value handle) {
 
@@ -2384,6 +2449,8 @@ namespace lime {
 	DEFINE_PRIME2v (lime_cairo_show_glyphs);
 	DEFINE_PRIME1v (lime_cairo_show_page);
 	DEFINE_PRIME2v (lime_cairo_show_text);
+	DEFINE_PRIME2 (lime_cairo_text_extents);
+	DEFINE_PRIME1 (lime_cairo_font_extents);
 	DEFINE_PRIME1 (lime_cairo_status);
 	DEFINE_PRIME1v (lime_cairo_stroke);
 	DEFINE_PRIME5v (lime_cairo_stroke_extents);
@@ -2506,6 +2573,8 @@ namespace lime {
 	DEFINE_HL_PRIM (_VOID, lime_cairo_show_glyphs, _TCFFIPOINTER _ARR);
 	DEFINE_HL_PRIM (_VOID, lime_cairo_show_page, _TCFFIPOINTER);
 	DEFINE_HL_PRIM (_VOID, lime_cairo_show_text, _TCFFIPOINTER _STRING);
+	DEFINE_HL_PRIM (_ARR, lime_cairo_text_extents, _TCFFIPOINTER _STRING);
+	DEFINE_HL_PRIM (_ARR, lime_cairo_font_extents, _TCFFIPOINTER);
 	DEFINE_HL_PRIM (_I32, lime_cairo_status, _TCFFIPOINTER);
 	DEFINE_HL_PRIM (_VOID, lime_cairo_stroke, _TCFFIPOINTER);
 	DEFINE_HL_PRIM (_VOID, lime_cairo_stroke_extents, _TCFFIPOINTER _F64 _F64 _F64 _F64);

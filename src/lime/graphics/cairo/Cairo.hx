@@ -385,6 +385,36 @@ class Cairo
 		#end
 	}
 
+	public function textExtents(utf8:String):CairoTextExtents
+	{
+		#if (lime_cffi && lime_cairo && !macro)
+		#if hl
+		var extents:hl.NativeArray<Float> = NativeCFFI.lime_cairo_text_extents(handle, utf8);
+		if (extents == null) return new CairoTextExtents();
+		return new CairoTextExtents(extents[0], extents[1], extents[2], extents[3], extents[4], extents[5])
+		#else
+		var extents:Dynamic = NativeCFFI.lime_cairo_text_extents(handle, utf8);
+		return new CairoTextExtents(extents[0], extents[1], extents[2], extents[3], extents[4], extents[5]);
+		#end
+		#end
+		return new CairoTextExtents();
+	}
+
+	public function fontExtents():CairoFontExtents
+	{
+		#if (lime_cffi && lime_cairo && !macro)
+		#if hl
+		var extents:hl.NativeArray<Float> = NativeCFFI.lime_cairo_font_extents(handle);
+		if (extents == null) return new CairoFontExtents();
+		return new CairoFontExtents(extents[0], extents[1], extents[2], extents[3], extents[4])
+		#else
+		var extents:Dynamic = NativeCFFI.lime_cairo_font_extents(handle);
+		return new CairoFontExtents(extents[0], extents[1], extents[2], extents[3], extents[4]);
+		#end
+		#end
+		return new CairoFontExtents();
+	}
+
 	public function status():CairoStatus
 	{
 		#if (lime_cffi && lime_cairo && !macro)

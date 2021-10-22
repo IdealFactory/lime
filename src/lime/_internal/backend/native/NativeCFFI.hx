@@ -2470,6 +2470,10 @@ class NativeCFFI
 
 	@:cffi private static function lime_cairo_show_text(handle:CFFIPointer, text:String):Void;
 
+	@:cffi private static function lime_cairo_text_extents(handle:CFFIPointer, text:String):Dynamic;
+
+	@:cffi private static function lime_cairo_font_extents(handle:CFFIPointer):Dynamic;
+
 	@:cffi private static function lime_cairo_status(handle:CFFIPointer):Int;
 
 	@:cffi private static function lime_cairo_stroke(handle:CFFIPointer):Void;
@@ -2676,6 +2680,10 @@ class NativeCFFI
 	private static var lime_cairo_show_page = new cpp.Callable<cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "lime_cairo_show_page", "ov", false));
 	private static var lime_cairo_show_text = new cpp.Callable<cpp.Object->String->cpp.Void>(cpp.Prime._loadPrime("lime", "lime_cairo_show_text", "osv",
 		false));
+	private static var lime_cairo_text_extents = new cpp.Callable<cpp.Object->String->cpp.Object>(cpp.Prime._loadPrime("lime", "lime_cairo_text_extents", "oso",
+		false));
+	private static var lime_cairo_font_extents = new cpp.Callable<cpp.Object->cpp.Object>(cpp.Prime._loadPrime("lime", "lime_cairo_font_extents", "oo",
+		false));
 	private static var lime_cairo_status = new cpp.Callable<cpp.Object->Int>(cpp.Prime._loadPrime("lime", "lime_cairo_status", "oi", false));
 	private static var lime_cairo_stroke = new cpp.Callable<cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "lime_cairo_stroke", "ov", false));
 	private static var lime_cairo_stroke_extents = new cpp.Callable<cpp.Object->Float->Float->Float->Float->cpp.Void>(cpp.Prime._loadPrime("lime",
@@ -2833,6 +2841,8 @@ class NativeCFFI
 	private static var lime_cairo_show_glyphs = CFFI.load("lime", "lime_cairo_show_glyphs", 2);
 	private static var lime_cairo_show_page = CFFI.load("lime", "lime_cairo_show_page", 1);
 	private static var lime_cairo_show_text = CFFI.load("lime", "lime_cairo_show_text", 2);
+	private static var lime_cairo_text_extents = CFFI.load("lime", "lime_cairo_text_extents", 2);
+	private static var lime_cairo_font_extents = CFFI.load("lime", "lime_cairo_font_extents", 2);
 	private static var lime_cairo_status = CFFI.load("lime", "lime_cairo_status", 1);
 	private static var lime_cairo_stroke = CFFI.load("lime", "lime_cairo_stroke", 1);
 	private static var lime_cairo_stroke_extents = CFFI.load("lime", "lime_cairo_stroke_extents", 5);
@@ -3105,6 +3115,16 @@ class NativeCFFI
 	@:hlNative("lime", "lime_cairo_show_page") private static function lime_cairo_show_page(handle:CFFIPointer):Void {}
 
 	@:hlNative("lime", "lime_cairo_show_text") private static function lime_cairo_show_text(handle:CFFIPointer, text:String):Void {}
+
+	@:hlNative("lime", "lime_cairo_text_extents") private static function lime_cairo_text_extents(handle:CFFIPointer, text:String):hl.NativeArray<Float>
+	{
+		return null;
+	}
+
+	@:hlNative("lime", "lime_cairo_font_extents") private static function lime_cairo_font_extents(handle:CFFIPointer):hl.NativeArray<Float>
+	{
+		return null;
+	}
 
 	@:hlNative("lime", "lime_cairo_status") private static function lime_cairo_status(handle:CFFIPointer):Int
 	{
