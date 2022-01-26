@@ -1682,39 +1682,39 @@ class NativeOpenGLRenderContext
 
 	public function getExtension(name:String):Dynamic
 	{
-		trace("Extensions: getExtension:"+name);
+//		trace("Extensions: getExtension:"+name);
 		if (__extensionObjects == null)
 		{
-			trace("Extensions: setting up __extensionObjects:");
+//			trace("Extensions: setting up __extensionObjects:");
 			__extensionObjects = new Map();
 			var supportedExtensions = getSupportedExtensions();
 
 			for (extension in supportedExtensions)
 			{
-				trace("Extensions: supported extensions ext="+extension);
+//				trace("Extensions: supported extensions ext="+extension);
 				if (__extensionObjectConstructors.exists(extension))
 				{
-					trace("Extensions: exists in extObjConstructors so adding to extObjects for ext="+extension);
+//					trace("Extensions: exists in extObjConstructors so adding to extObjects for ext="+extension);
 					__extensionObjects.set(extension, null);
 				}
 			}
 		}
 
-		trace("Extensions: checking if ext exists ext="+name);
+//		trace("Extensions: checking if ext exists ext="+name);
 		if (__extensionObjects.exists(name))
 		{
 			var object = __extensionObjects.get(name);
-			trace("Extensions: got from extObjects name="+name+" object="+object);
+//			trace("Extensions: got from extObjects name="+name+" object="+object);
 			if (object == null)
 			{
-				trace("Extensions: about to invoke the constructor()");
+//				trace("Extensions: about to invoke the constructor()");
 				object = __extensionObjectConstructors.get(name)();
-				trace("Extensions: instance:"+object);
+//				trace("Extensions: instance:"+object);
 				__extensionObjects.set(name, object);
 
 				#if (lime_cffi && (lime_opengl || lime_opengles) && !macro)
 				NativeCFFI.lime_gl_get_extension(name); tr([ name ]);
-				trace("Extensions:"+name);
+//				trace("Extensions:"+name);
 				#end
 			}
 
@@ -2194,13 +2194,13 @@ class NativeOpenGLRenderContext
 	{
 		if (__supportedExtensions == null)
 		{
-			trace("getSupportedExtensions:Inside  version="+version);
+//			trace("getSupportedExtensions:Inside  version="+version);
 			__supportedExtensions = new Array<String>();
 
 			if (version < 3)
 			{
 				var extensions = getString(GL.EXTENSIONS);
-				trace("getSupportedExtensions-ver<3: extensions string="+extensions);
+//				trace("getSupportedExtensions-ver<3: extensions string="+extensions);
 
 				if( extensions != null) {
 					var extensionList = extensions.split(" ");
@@ -2215,7 +2215,7 @@ class NativeOpenGLRenderContext
 						{
 							__supportedExtensions.push(extension);
 						}
-						trace("getSupportedExtensions-ver<3: found extension="+extension);
+//						trace("getSupportedExtensions-ver<3: found extension="+extension);
 					}
 				}
 			}
@@ -2224,11 +2224,11 @@ class NativeOpenGLRenderContext
 				var numExtensions = new UInt32Array(1);
 				getIntegerv( GL.NUM_EXTENSIONS, numExtensions );
 				var extension:String;
-				trace("getSupportedExtensions-ver>3: numExtensions="+numExtensions);
-				trace("getSupportedExtensions-ver>3: numExtensions="+numExtensions[0]);
+//				trace("getSupportedExtensions-ver>3: numExtensions="+numExtensions);
+//				trace("getSupportedExtensions-ver>3: numExtensions="+numExtensions[0]);
 				for (extId in 0...numExtensions[0])
 				{
-					trace("getSupportedExtensions-ver>3: extId="+extId);
+//					trace("getSupportedExtensions-ver>3: extId="+extId);
 					extension = getStringi(GL.EXTENSIONS, extId );
 
 					if (StringTools.startsWith(extension, "GL_"))
@@ -2239,7 +2239,7 @@ class NativeOpenGLRenderContext
 					{
 						__supportedExtensions.push(extension);
 					}
-					trace("getSupportedExtensions-ver>3: found extension="+extension);
+//					trace("getSupportedExtensions-ver>3: found extension="+extension);
 				}
 			}
 		}
