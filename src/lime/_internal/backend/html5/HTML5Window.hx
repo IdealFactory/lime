@@ -13,6 +13,7 @@ import js.html.InputEvent;
 import js.html.LinkElement;
 import js.html.MouseEvent;
 import js.html.Node;
+import js.html.TextAreaElement;
 import js.html.TouchEvent;
 import js.html.ClipboardEvent;
 import js.html.VisualViewport;
@@ -53,6 +54,7 @@ typedef ViewportSize = {
 class HTML5Window
 {
 	private static var dummyCharacter = String.fromCharCode(127);
+	private static var textArea:TextAreaElement;
 	private static var textInput:InputElement;
 	private static var windowID:Int = 0;
 
@@ -120,7 +122,7 @@ class HTML5Window
 
 		parent.id = windowID++;
 
-		if (Std.is(element, CanvasElement))
+		if ((element is CanvasElement))
 		{
 			canvas = cast element;
 		}
@@ -292,7 +294,8 @@ class HTML5Window
 						depth: Reflect.hasField(contextAttributes, "depth") ? contextAttributes.depth : true,
 						premultipliedAlpha: true,
 						stencil: Reflect.hasField(contextAttributes, "stencil") ? contextAttributes.stencil : false,
-						preserveDrawingBuffer: false
+						preserveDrawingBuffer: false,
+						failIfMajorPerformanceCaveat: false
 					};
 
 				var glContextType = ["webgl", "experimental-webgl"];
@@ -555,6 +558,8 @@ class HTML5Window
 	{
 		// In order to ensure that the browser will fire clipboard events, we always need to have something selected.
 		// Therefore, `value` cannot be "".
+
+		if (inputing) return;
 
 		if (textInput.value != dummyCharacter)
 		{
@@ -942,22 +947,25 @@ class HTML5Window
 
 	public function setClipboard(value:String):Void
 	{
-		var inputEnabled = textInputEnabled;
-
-		setTextInputEnabled(true); // create textInput if necessary
-
-		var cacheText = textInput.value;
-		textInput.value = value;
-		textInput.select();
+		if (textArea == null)
+		{
+			textArea = cast Browser.document.createElement("textarea");
+			textArea.style.height = "0px";
+			textArea.style.left = "-100px";
+			textArea.style.opacity = "0";
+			textArea.style.position = "fixed";
+			textArea.style.top = "-100px";
+			textArea.style.width = "0px";
+			Browser.document.body.appendChild(textArea);
+		}
+		textArea.value = value;
+		textArea.focus();
+		textArea.select();
 
 		if (Browser.document.queryCommandEnabled("copy"))
 		{
 			Browser.document.execCommand("copy");
 		}
-
-		textInput.value = cacheText;
-
-		setTextInputEnabled(inputEnabled);
 	}
 
 	public function setCursor(value:MouseCursor):MouseCursor
@@ -1168,6 +1176,8 @@ class HTML5Window
 				textInput.addEventListener('cut', handleCutOrCopyEvent, true);
 				textInput.addEventListener('copy', handleCutOrCopyEvent, true);
 				textInput.addEventListener('paste', handlePasteEvent, true);
+				textInput.addEventListener('compositionstart', handleCompositionstartEvent, true);
+				textInput.addEventListener('compositionend', handleCompositionendEvent, true);
 			}
 
 			textInput.focus();
@@ -1182,12 +1192,27 @@ class HTML5Window
 				textInput.removeEventListener('cut', handleCutOrCopyEvent, true);
 				textInput.removeEventListener('copy', handleCutOrCopyEvent, true);
 				textInput.removeEventListener('paste', handlePasteEvent, true);
+				textInput.removeEventListener('compositionstart', handleCompositionstartEvent, true);
+				textInput.removeEventListener('compositionend', handleCompositionendEvent, true);
 
 				textInput.blur();
 			}
 		}
 
 		return textInputEnabled = value;
+	}
+
+	private var inputing = false;
+
+	public function handleCompositionstartEvent(e):Void
+	{
+		inputing = true;
+	}
+
+	public function handleCompositionendEvent(e):Void
+	{
+		inputing = false;
+		handleInputEvent(e);
 	}
 
 	public function setTitle(value:String):String

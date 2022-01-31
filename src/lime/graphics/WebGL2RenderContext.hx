@@ -306,6 +306,7 @@ import lime.utils.UInt32Array;
 **/
 @:access(lime.graphics.RenderContext)
 #if !doc_gen
+@:transitive
 abstract WebGL2RenderContext(OpenGLRenderContext) from OpenGLRenderContext to OpenGLRenderContext
 {
 #else

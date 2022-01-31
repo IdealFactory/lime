@@ -78,7 +78,7 @@ class TVOSPlatform extends PlatformTarget
 		}
 		else
 		{
-			Sys.println(getDisplayHXML());
+			Sys.println(getDisplayHXML().toString());
 		}
 	}
 
@@ -118,7 +118,8 @@ class TVOSPlatform extends PlatformTarget
 		{
 			if (!StringTools.endsWith(dependency.name, ".framework")
 				&& !StringTools.endsWith(dependency.name, ".tbd")
-				&& !StringTools.endsWith(dependency.path, ".framework"))
+				&& !StringTools.endsWith(dependency.path, ".framework")
+				&& !StringTools.endsWith(dependency.path, ".xcframework"))
 			{
 				if (dependency.path != "")
 				{
@@ -148,16 +149,6 @@ class TVOSPlatform extends PlatformTarget
 		{
 			architectures = [Architecture.ARM64];
 		}
-
-		/*if (project.config.getString ("ios.device", "universal") == "universal" || project.config.getString ("ios.device") == "iphone") {
-
-			if (project.config.getFloat ("ios.deployment", 5.1) < 5) {
-
-				ArrayTools.addUnique (architectures, Architecture.ARMV6);
-
-			}
-
-		}*/
 
 		for (architecture in project.architectures)
 		{
@@ -263,6 +254,12 @@ class TVOSPlatform extends PlatformTarget
 				path = Path.tryFullPath(dependency.path);
 				fileType = "wrapper.framework";
 			}
+			else if (Path.extension(dependency.path) == "xcframework")
+			{
+				name = Path.withoutDirectory(dependency.path);
+				path = Path.tryFullPath(dependency.path);
+				fileType = "wrapper.xcframework";
+			}
 
 			if (name != null)
 			{
@@ -297,7 +294,7 @@ class TVOSPlatform extends PlatformTarget
 		return context;
 	}
 
-	private function getDisplayHXML():String
+	private function getDisplayHXML():HXML
 	{
 		var path = targetDirectory + "/" + project.app.file + "/haxe/Build.hxml";
 
@@ -425,16 +422,16 @@ class TVOSPlatform extends PlatformTarget
 		}
 
 		var splashSizes:Array<SplashSize> = [
-			{name: "Default.png", w: 320, h: 480}, // iPhone, portrait {name: "Default@2x.png", w: 640, h: 960}, // iPhone Retina, portrait
-			{name: "Default-568h@2x.png", w: 640, h: 1136}, // iPhone 5, portrait {name: "Default-Portrait.png", w: 768, h: 1024}, // iPad, portrait
-			{name: "Default-Landscape.png", w: 1024, h: 768}, // iPad, landscape {name: "Default-Portrait@2x.png", w: 1536, h: 2048}, // iPad Retina, portrait
-			{
-				name: "Default-Landscape@2x.png",
-				w: 2048,
-				h: 1536
-			}, // iPad Retina, landscape {name: "Default-667h@2x.png", w: 750, h: 1334}, // iPhone 6, portrait
-			{name: "Default-736h@3x.png", w: 1242, h: 2208}, // iPhone 6 Plus, portrait {name: "Default-736h-Landscape@3x.png", w: 2208, h: 1242},
-			// iPhone 6 Plus, landscape
+			{name: "Default.png", w: 320, h: 480}, // iPhone, portrait
+			{name: "Default@2x.png", w: 640, h: 960}, // iPhone Retina, portrait
+			{name: "Default-568h@2x.png", w: 640, h: 1136}, // iPhone 5, portrait
+			{name: "Default-Portrait.png", w: 768, h: 1024}, // iPad, portrait
+			{name: "Default-Landscape.png", w: 1024, h: 768}, // iPad, landscape
+			{name: "Default-Portrait@2x.png", w: 1536, h: 2048}, // iPad Retina, portrait
+			{name: "Default-Landscape@2x.png", w: 2048, h: 1536}, // iPad Retina, landscape
+			{name: "Default-667h@2x.png", w: 750, h: 1334}, // iPhone 6, portrait
+			{name: "Default-736h@3x.png", w: 1242, h: 2208}, // iPhone 6 Plus, portrait
+			{name: "Default-736h-Landscape@3x.png", w: 2208, h: 1242}, // iPhone 6 Plus, landscape
 		];
 
 		var splashScreenPath = Path.combine(projectDirectory, "Images.xcassets/LaunchImage.launchimage");
@@ -605,7 +602,15 @@ class TVOSPlatform extends PlatformTarget
 	}*/
 	public override function watch():Void
 	{
-		var dirs = []; // WatchHelper.processHXML (getDisplayHXML (), project.app.path);
+		var hxml = getDisplayHXML();
+		var dirs = hxml.getClassPaths(true);
+
+		var outputPath = Path.combine(Sys.getCwd(), project.app.path);
+		dirs = dirs.filter(function(dir)
+		{
+			return (!Path.startsWith(dir, outputPath));
+		});
+
 		var command = ProjectHelper.getCurrentCommand();
 		System.watch(command, dirs);
 	}

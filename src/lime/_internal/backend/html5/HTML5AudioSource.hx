@@ -54,7 +54,12 @@ class HTML5AudioSource
 
 		parent.buffer.__srcHowl.on("end", howl_onEnd, id);
 
+		// Calling setCurrentTime causes html5 audio to replay from this position on next frame
+		#if force_html5_audio
+		if (time == 0) setCurrentTime(time);
+		#else
 		setCurrentTime(time);
+		#end
 		#end
 	}
 
@@ -78,6 +83,7 @@ class HTML5AudioSource
 		if (parent.buffer != null && parent.buffer.__srcHowl != null)
 		{
 			parent.buffer.__srcHowl.stop(id);
+			parent.buffer.__srcHowl.off("end", howl_onEnd, id);
 		}
 		#end
 	}
@@ -99,6 +105,7 @@ class HTML5AudioSource
 		else if (parent.buffer != null && parent.buffer.__srcHowl != null)
 		{
 			parent.buffer.__srcHowl.stop(id);
+			parent.buffer.__srcHowl.off("end", howl_onEnd, id);
 		}
 
 		completed = true;

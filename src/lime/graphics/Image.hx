@@ -629,6 +629,7 @@ class Image
 		#if flash
 		var buffer = new ImageBuffer(null, bitmapData.width, bitmapData.height);
 		buffer.__srcBitmapData = bitmapData;
+		buffer.transparent = bitmapData.transparent;
 		return new Image(buffer);
 		#else
 		return bitmapData.image;
@@ -1438,7 +1439,7 @@ class Image
 	{
 		#if (js && html5)
 		#if openfljs
-		var image:JSImage = untyped __js__('new window.Image ()');
+		var image:JSImage = untyped #if haxe4 js.Syntax.code #else __js__ #end ('new window.Image ()');
 		#else
 		var image = new JSImage();
 		#end
@@ -1574,7 +1575,7 @@ class Image
 		});
 		#elseif (js && html5)
 		#if openfljs
-		var image:JSImage = untyped __js__('new window.Image ()');
+		var image:JSImage = untyped #if haxe4 js.Syntax.code #else __js__ #end ('new window.Image ()');
 		#else
 		var image = new JSImage();
 		#end
