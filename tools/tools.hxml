@@ -7,6 +7,6 @@
 -cp ../src
 -lib format
 -lib hxp
-#-lib svg
+-lib svg
 -D optional-cffi
 -D no-inline
