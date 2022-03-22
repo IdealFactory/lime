@@ -277,7 +277,7 @@ class HTML5Application
 		Browser.window.addEventListener("focus", handleWindowEvent, false);
 		Browser.window.addEventListener("blur", handleWindowEvent, false);
 		Browser.window.addEventListener('viewportresize', handleViewportEvent, false);
-		var v:VisualViewport = untyped __js__("window.visualViewport");
+		var v:VisualViewport = untyped #if haxe4 js.Syntax.code #else __js__ #end("window.visualViewport");
 		if (v != null)
 			v.addEventListener("resize", handleViewportEvent, false);
 		else
