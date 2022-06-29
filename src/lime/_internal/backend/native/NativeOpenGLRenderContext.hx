@@ -2967,8 +2967,6 @@ class NativeOpenGLRenderContext
 	{
 		#if (lime_cffi && (lime_opengl || lime_opengles) && !macro)
 		NativeCFFI.lime_gl_tex_parameteri(target, pname, param); tr([ target, pname, param ]);
-		if (param == 0x2703)
-			trace("LINEAR_MIPMAP_LINEAR stack:"+haxe.CallStack.callStack());
 		#end
 	}
 
