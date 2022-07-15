@@ -682,7 +682,7 @@ class NativeOpenGLRenderContext
 	{
 		for (fld in Reflect.fields(this)) {
 			var val = Reflect.field(this, fld);
-			if (Std.is(val, Int))
+			if (Std.isOfType(val, Int))
 				lookup[val] = fld;
 		}
 
@@ -2129,7 +2129,7 @@ class NativeOpenGLRenderContext
 		#if (lime_cffi && (lime_opengl || lime_opengles) && !macro)
 		var result = NativeCFFI.lime_gl_get_shader_info_log(__getObjectID(shader)); tr([ __getObjectID(shader) ]);
 		#if hl
-		var result = result==null ? "" : @:privateAccess String.fromUTF8(result);
+		var result = (result != null) ? @:privateAccess String.fromUTF8(result) : null;
 		#end
 		return result;
 		#else
@@ -3487,6 +3487,7 @@ class NativeOpenGLRenderContext
 			__extensionObjectConstructors["NV_read_stencil"] = NV_read_stencil.new;
 			__extensionObjectConstructors["NV_texture_compression_s3tc_update"] = NV_texture_compression_s3tc_update.new;
 			__extensionObjectConstructors["NV_texture_npot_2D_mipmap"] = NV_texture_npot_2D_mipmap.new;
+			__extensionObjectConstructors["NVX_gpu_memory_info"] = NVX_gpu_memory_info.new;
 			__extensionObjectConstructors["OES_EGL_image"] = OES_EGL_image.new;
 			__extensionObjectConstructors["OES_EGL_image_external"] = OES_EGL_image_external.new;
 			__extensionObjectConstructors["OES_compressed_ETC1_RGB8_texture"] = OES_compressed_ETC1_RGB8_texture.new;

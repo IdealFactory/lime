@@ -1118,7 +1118,7 @@ class Bytes
 	}
 
 	public static function ofString(s:String
-			#if (!hl || haxe_ver >= 4), ?encoding:#if (haxe_ver >= 4) haxe.io.Encoding #else Dynamic #end #end):Bytes@:privateAccess {
+			#if (!hl || haxe_ver >= 4), ?encoding:#if (haxe_ver >= 4) haxe.io.Encoding #else Dynamic #end #end):Bytes @:privateAccess {
 		var size = 0;
 		var b = s.bytes.utf16ToUtf8(0, size);
 		return new Bytes(b, size);

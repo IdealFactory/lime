@@ -72,7 +72,7 @@ namespace lime {
 		}
 		#endif
 
-		#ifndef EMSCRIPTEN
+		#if !defined(EMSCRIPTEN) && !defined(LIME_SWITCH)
 		SDL_SetHint (SDL_HINT_ANDROID_TRAP_BACK_BUTTON, "0");
 		SDL_SetHint (SDL_HINT_MOUSE_FOCUS_CLICKTHROUGH, "1");
 		SDL_SetHint (SDL_HINT_MOUSE_TOUCH_EVENTS, "0");
@@ -1059,6 +1059,23 @@ namespace lime {
 
 		}
 
+	}
+
+
+	void SDLWindow::SetTextInputRect (Rectangle * rect) {
+
+		SDL_Rect bounds = { 0, 0, 0, 0 };
+
+		if (rect) {
+
+			bounds.x = rect->x;
+			bounds.y = rect->y;
+			bounds.w = rect->width;
+			bounds.h = rect->height;
+
+		}
+
+		SDL_SetTextInputRect(&bounds);
 	}
 
 

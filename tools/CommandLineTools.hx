@@ -54,7 +54,6 @@ class CommandLineTools
 		words = new Array<String>();
 
 		overrides = new HXProject();
-		overrides.architectures = [];
 
 		// Haxelib.setOverridePath (new Haxelib ("lime-tools"), Path.combine (Haxelib.getPath (new Haxelib ("lime")), "tools"));
 
@@ -479,7 +478,7 @@ class CommandLineTools
 					{
 						neko.Lib.load("lime", "lime_application_create", 0);
 					}
-					catch(e:Dynamic)
+					catch (e:Dynamic)
 					{
 						untyped $loader.path = $array(path + "Windows64/", $loader.path);
 					}
@@ -1026,6 +1025,8 @@ class CommandLineTools
 			Log.println("  \x1b[3m(flash)\x1b[0m \x1b[1m-web\x1b[0m -- Test Flash target using a web template");
 			Log.println("  \x1b[3m(air)\x1b[0m \x1b[1m-ios\x1b[0m -- Target iOS instead of AIR desktop");
 			Log.println("  \x1b[3m(air)\x1b[0m \x1b[1m-android\x1b[0m -- Target Android instead of AIR desktop");
+			Log.println("  \x1b[3m(air)\x1b[0m \x1b[1m-ios -air-simulator\x1b[0m -- Target AIR simulator as iOS");
+			Log.println("  \x1b[3m(air)\x1b[0m \x1b[1m-android -air-simulator\x1b[0m -- Target AIR simulator as Android");
 
 			if (command != "run" && command != "trace")
 			{
@@ -1071,6 +1072,7 @@ class CommandLineTools
 				Log.println("  \x1b[1m--haxelib\x1b[0;3m=value\x1b[0m -- Add an additional <haxelib/> value");
 				Log.println("  \x1b[1m--haxelib-\x1b[0;3mname=value\x1b[0m -- Override the path to a haxelib");
 				Log.println("  \x1b[1m--source\x1b[0;3m=value\x1b[0m -- Add an additional <source/> value");
+				Log.println("  \x1b[1m--template\x1b[0;3m=value\x1b[0m -- Add an additional <template/> value");
 				Log.println("  \x1b[1m--certificate-\x1b[0;3moption=value\x1b[0m -- Override a project <certificate/> setting");
 			}
 
@@ -1257,7 +1259,7 @@ class CommandLineTools
 			buildNumber = getBuildNumber_SVN(project, increment);
 		}
 
-		if (buildNumber == null)
+		if (buildNumber == null || buildNumber == ".build")
 		{
 			var versionFile = Path.combine(project.app.path, ".build");
 			var version = 1;
@@ -1857,18 +1859,25 @@ class CommandLineTools
 				if (Reflect.hasField(project, field))
 				{
 					var fieldValue = Reflect.field(project, field);
-
-					if (Reflect.hasField(fieldValue, attribute))
+					var typeValue:Dynamic = switch (field)
 					{
-						if (Std.is(Reflect.field(fieldValue, attribute), String))
+						case "app": ApplicationData.expectedFields;
+						case "meta": MetaData.expectedFields;
+						case "window": WindowData.expectedFields;
+						default: fieldValue;
+					};
+
+					if (Reflect.hasField(typeValue, attribute))
+					{
+						if ((Reflect.field(typeValue, attribute) is String))
 						{
 							Reflect.setField(fieldValue, attribute, projectDefines.get(key));
 						}
-						else if (Std.is(Reflect.field(fieldValue, attribute), Float))
+						else if ((Reflect.field(typeValue, attribute) is Float))
 						{
 							Reflect.setField(fieldValue, attribute, Std.parseFloat(projectDefines.get(key)));
 						}
-						else if (Std.is(Reflect.field(fieldValue, attribute), Bool))
+						else if ((Reflect.field(typeValue, attribute) is Bool))
 						{
 							Reflect.setField(fieldValue, attribute, (projectDefines.get(key).toLowerCase() == "true"
 								|| projectDefines.get(key) == "1"));
@@ -2070,6 +2079,10 @@ class CommandLineTools
 					{
 						overrides.dependencies.push(new Dependency(argValue, ""));
 					}
+					else if (field == "template")
+					{
+						overrides.templatePaths.push(argValue);
+					}
 					else if (StringTools.startsWith(field, "certificate-"))
 					{
 						if (overrides.keystore == null)
@@ -2116,24 +2129,31 @@ class CommandLineTools
 						if (field == "meta-build-number") property = "buildNumber";
 
 						var fieldReference = Reflect.field(overrides, fieldName);
-
-						if (Reflect.hasField(fieldReference, property))
+						var typeValue:Dynamic = switch (fieldName)
 						{
-							var propertyReference = Reflect.field(fieldReference, property);
+							case "app": ApplicationData.expectedFields;
+							case "meta": MetaData.expectedFields;
+							case "window": WindowData.expectedFields;
+							default: fieldReference;
+						};
 
-							if (Std.is(propertyReference, Bool))
+						if (Reflect.hasField(typeValue, property))
+						{
+							var propertyReference = Reflect.field(typeValue, property);
+
+							if ((propertyReference is Bool))
 							{
 								Reflect.setField(fieldReference, property, argValue == "true");
 							}
-							else if (Std.is(propertyReference, Int))
+							else if ((propertyReference is Int))
 							{
 								Reflect.setField(fieldReference, property, Std.parseInt(argValue));
 							}
-							else if (Std.is(propertyReference, Float))
+							else if ((propertyReference is Float))
 							{
 								Reflect.setField(fieldReference, property, Std.parseFloat(argValue));
 							}
-							else if (Std.is(propertyReference, String))
+							else if ((propertyReference is String))
 							{
 								Reflect.setField(fieldReference, property, argValue);
 							}

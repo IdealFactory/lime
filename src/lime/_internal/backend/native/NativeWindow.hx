@@ -560,16 +560,17 @@ class NativeWindow
 			#if (!macro && lime_cffi)
 			NativeCFFI.lime_window_set_text_input_enabled(handle, value);
 			#end
+		}
 
-			#if android
-			if (!value)
-			{
-				var updateSystemUI = JNI.createStaticMethod("org/haxe/lime/GameActivity", "updateSystemUI", "()V");
-				JNI.postUICallback(function()
-				{
-					updateSystemUI();
-				});
-			}
+		return value;
+	}
+
+	public function setTextInputRect(value:Rectangle):Rectangle
+	{
+		if (handle != null)
+		{
+			#if (!macro && lime_cffi)
+			NativeCFFI.lime_window_set_text_input_rect(handle, value);
 			#end
 		}
 
