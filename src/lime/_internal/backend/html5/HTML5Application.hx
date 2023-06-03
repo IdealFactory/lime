@@ -452,7 +452,7 @@ class HTML5Application
 			switch (event.type)
 			{
 				case "resize":
-					parent.window.__backend.handleViewportResizeEvent(event);
+					parent.window.__backend.handleResizeEvent(event);
 				case "viewportresize":
 					parent.window.__backend.handleViewportResizeEvent(event);
 			}
