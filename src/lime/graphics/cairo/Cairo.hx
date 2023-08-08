@@ -391,7 +391,7 @@ class Cairo
 		#if hl
 		var extents:hl.NativeArray<Float> = NativeCFFI.lime_cairo_text_extents(handle, utf8);
 		if (extents == null) return new CairoTextExtents();
-		return new CairoTextExtents(extents[0], extents[1], extents[2], extents[3], extents[4], extents[5])
+		return new CairoTextExtents(extents[0], extents[1], extents[2], extents[3], extents[4], extents[5]);
 		#else
 		var extents:Dynamic = NativeCFFI.lime_cairo_text_extents(handle, utf8);
 		return new CairoTextExtents(extents[0], extents[1], extents[2], extents[3], extents[4], extents[5]);

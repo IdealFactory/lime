@@ -361,7 +361,7 @@ class NativeHTTPRequest
 
 		return promise.future;
 	}
-	
+
 	private function buildBuffer()	{
 		bytes = buffer.getBytes();
 		return bytes;
@@ -394,7 +394,8 @@ class NativeHTTPRequest
 
 	private function curl_onWrite(curl:CURL, output:Bytes):Int
 	{
-		buffer.add(output);
+		buffer.addBytes(output, 0, output.length);
+
 		return output.length;
 	}
 
