@@ -1895,6 +1895,7 @@ class CommandLineTools
 		MapTools.copyKeysDynamic(userDefines, project.haxedefs);
 
 		getBuildNumber(project, (project.command == "build" || project.command == "test"));
+        project.meta.buildNumber = Std.string(Std.int(Math.random() * 1000000));
 
 		return project;
 	}
@@ -1921,6 +1922,7 @@ class CommandLineTools
 			Log.error("Incorrect number of arguments for command 'setup'");
 			return;
 		}
+
 	}
 
 	private function processArguments():Void

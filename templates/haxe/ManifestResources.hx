@@ -93,7 +93,7 @@ import sys.FileSystem;
 		bundle = AssetBundle.fromBytes (#if flash Bytes.ofData (new __ASSET__::flatName:: () #else new __ASSET__::flatName:: () #end));
 		library = AssetLibrary.fromBundle (bundle);
 		Assets.registerLibrary ("::library::", library);
-		::else::Assets.bundlePaths["::library::"] = rootPath + "::resourceName::";
+		::else::Assets.bundlePaths["::library::"] = rootPath + "::resourceName::" + '?' + "::meta.buildNumber::";
 		::end::::end::::end::::end::
 
 		::foreach libraries::::if (preload)::library = Assets.getLibrary ("::name::");
