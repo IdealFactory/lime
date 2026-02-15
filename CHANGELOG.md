@@ -1,6 +1,262 @@
 Changelog
 =========
 
+8.3.0 (11/11/2025)
+------------------
+
+* Added `onDisplayOrientation` and `onDeviceOrientation` events to `Application` to detect mobile device orientation changes.
+* Added `safeArea` property to `Display` to detect region safe from cutouts and rounded corners.
+* Added `rumble()` method to `Gamepad`.
+* Added `-json` flag, which works similarly to the `-xml` flag, but outputs types in JSON format.
+* Added `layoutInDisplayCutoutMode` to `<config:android>`, which may be set to `default`, `always`, `never`, or `shortEdges`.
+* Added support for Windows resource file to set metadata in executable.
+* Added `pannerAttr()` method to `Howler` to configure panner node's attributes for a sound or group of sounds.
+* Added `addString()` method to `HBBuffer` to properly handle encoding conversions in native code.
+* Added `screensize` and `screenDPI` to `<config:air>` to customize the mobile simulator.
+* Added `onUncaughtError` event to `ThreadPool` to allow main thread to handle exceptions in `doWork`.
+* Added `strikethroughPosition` and `strikethroughThickness` to `Font`.
+* Added separate `lime-openalsoft` and `lime-mojoal` defines to help detect which library is used.
+* Added `gradle-properties` to `<config:android>` to customize properties for Android Gradle builds.
+* Fixed missing `hl-ver` define to configure the Haxe compiler to target Lime's bundled HashLink (unless a custom `HL_PATH` is set).
+* Fixed display of preload progress for packed asset libraries.
+* Fixed mouse move and mouse up event failing to dispatch outside window bounds when mouse button is down.
+* Fixed `hardware` attribute not being set on context creation.
+* Fixed some window properties not getting set properly from attributes on window creation.
+* Fixed performance issues in `ThreadPool` by overhauling job scheduling.
+* Fixed exception on Windows when exiting program by using `SDL_QuitSubSystem` in native code.
+* Fixed separate private variables for `visible` and `hidden` that got out of sync.
+* Fixed crash on HashLink when passing `NULL` device to OpenAL bindings.
+* Fixed many variables that defaulted to `Dynamic` because they did not declare a type and were not initialized.
+* Fixed `ThreadPool` throwing an exception when `Application.current` is `null`.
+* Fixed old _run.n_ in Haxelib because the CI server did not build it.
+* Changed Android rebuild to use NDK r28c for Haxelib to support new 16KB native library aligment requirement.
+* Changed Android target SDK version to 35. May require updating to JDK 17 or newer.
+* Changed default Android architecture for x86 from x86_32 to x86_64 (can still rebuild x86_32 manually).
+* Changed default Android emulator architectures to include ARM64 to better support ARM64 on macOS.
+* Changed default Adobe AIR SDK version from 28.0 to 32.0 because 28.0 is no longer available for download from Adobe.
+* Changed `minimum-sdk-version` in `<config:android>` to customize the `PLATFORM` or `PLATFORM_NUMBER` values used by Android builds.
+* Changed _index.html_ template to use `mobile-web-app-capable` instead of deprecated `apple-mobile-web-app-capable`.
+* Removed Linux x86_32 binaries from Haxelib (but can still rebuild them manually).
+* Removed custom implementation of `haxe.io.Bytes`.
+* Updated bundled HashLink executable version to 1.14.
+* Updated SDL submodule to version 2.30.12.
+* Updated OpenAL Soft submodule to version 1.21.1.
+
+8.2.3 (10/01/2025)
+------------------
+
+* Fixed JPEG rendering on 32-bit platforms.
+* Fixed application hang in `FileDialog` on Windows by forcing `SINGLE_THREADED` flag.
+* Fixed iOS device installation on versions older than iOS 16.
+* Fixed how iOS 16 and newer devices are selected for testing to support more available devices.
+* Fixed ability to specify the version of a Haxelib when using a local _.haxelib_ repository.
+* Fixed exception when initializing vibration on Android and permission was disabled.
+* Fixed parent directory incorrectly opened in `FileDialog` if the default path is a directory.
+* Fixed Unicode system path conversions on Linux.
+* Fixed `password`, `alias`, and `aliasPassword` being assigned incorrectly in Lime tools.
+* Fixed crash in `AudioManager` when `alc.openDevice()` returns `null`.
+* Fixed references to certain types for stricter rules in Haxe 5.
+* Fixed `FFECT_AUTOWAH` typo by adding correct `EFFECT_AUTOWAH` value.
+* Fixed exception in `HTML5HTTPRequest` in some environments when `request.upload` is `null`.
+* Fixed `EXC_BAD_ACCESS` when decoding PNGs and the bytes are `null` or length is `0`.
+* Fixed iOS app sometimes running in iPhone simulator when `<config:ios device="ipad"/>` is specified.
+* Fixed iOS app sometimes not starting in simulator by recognizing more valid simulator IDs.
+* Fixed incorrect request for confirmation when `-alias` or `-cli` flags are specified.
+* Fixed conversions between key codes and scan codes in both directions.
+* Fixed memory leak in cURL bindings from header values not getting freed.
+* Added `CURLOPT_ACCEPT_ENCODING` option for native HTTP requests.
+* Fixed missing macos define when using cpp target on macOS.
+* Fixed compatibility with Haxe 3 in `HTML5Thread` and Lime tools.
+* Fixed failed static build linking on Windows caused by missing _.lib_ file.
+* Fixed failed static builds caused by conflicts between hxcpp's and Lime's mbedtls versions.
+* Fixed missing UTF-8 conversion in `hb_buffer_add_utf8`.
+* Fixed `Font.getGlyphs()` returning an array of zeroes on HashLink.
+* Fixed `Font.getGlyphs()` getting stuck in an infinite loop on encountering an invalid character.
+* Fixed `System.getDirectory()` UTF-16 encoding.
+* Fixed error not getting displayed when NDK 20 or newer is required for Android.
+* Fixed OpenAL Soft build on Android by adding `-std=c++11` option.
+* Fixed deprecation warning on Android caused by using deprecated no-arg constructor in `android.os.Handler`.
+* Fixed unnecessary `untyped __js__` in `ImageCanvasUtil` because externs are now available.
+* Fixed crashes when SDL functions return `NULL` on some targets.
+* Fixed `Timer.stop()` performing redundant iterations.
+* Added `-cli`, `-alias`, and `-noalias` flags to usage instructions.
+* Added instructions to use `lime config remove HL_PATH` to clear a custom HashLink version.
+* Changed `non-exempt-encryption` default for iOS from `true` to `false`.
+* Removed usage of legacy `MAC_USE_CURRENT_SDK` define in Lime tools when targeting macOS.
+* Updated Cairo submodule to version 1.18.2 from a snapshot release.
+* Updated HarfBuzz submodule to version 10.2.0.
+* Updated cURL submodule to version 7.87.0.
+* Updated zlib submodule to version 1.2.13.
+* Updated png submodule to version 1.6.46.
+* Updated efsw submodule to version 1.4.1.
+* Updated tinyfiledialogs submodule to version 3.19.1 and fix compatibility with zenity.
+
+8.2.2 (12/19/2024)
+------------------
+
+* Fixed broken breakpoints in HTML5 debug builds.
+* Fixed unecessary operations in `Promise` by inlining some getter functions.
+* Fixed failure to read `gradle-plugin` attribute in `<config:android>` tag.
+* Fixed failed installation of app on iOS Simulator by choosing only simulators that are considered available.
+* Fixed `lime test ios` to install and launch on a device when using Xcode 16 or newer.
+* Fixed reported version of OpenAL library.
+* Fixed memory cleanup when encoding PNG and JPEG images.
+* Fixed error reporting `@rpath/libhl.dylib` not found on macOS when using HashLink nightly build.
+* Fixed building HashLink on macOS that required cleaning between compiles.
+* Fixed `embedBytes()` macro incorrectly running when `embedByteArray()` macro was also running.
+* Fixed `ImageDataUtil.copyPixels()` causing crash on HashLink.
+* Fixed missing `neko` target flag when cross-compiling to Windows without `-mingw` or `-cpp` flags.
+* Fixed occasional failure running Lime tools by switching certain paths from relative to absolute.
+* Fixed missing warning when `lime rebuild` commands fail because C++ source is not available from Haxelib.
+* Fixed command instructions to specify requirement for absolute paths when setting up a platform.
+* Added detection of `-cpp` flag when cross-compiling to Windows, which works like `-mingw`.
+* Updated FreeType submodule to version 2.12.1 again. Resolved issues encountered when using this version in Lime 8.2.0.
+
+8.2.1 (11/01/2024)
+------------------
+
+* Fixed `Sys.exit()` causing hang instead of exiting application.
+* Fixed paths for _.ndll_ files when targeting Raspberry Pi.
+* Fixed compiling `BackgroundWorker` when targeting HashLink before Haxe 4.
+* Fixed errors compiling `ThreadPool` for HashLink with Haxe 4.0 and 4.1.
+* Fixed `Font.renderGlyph` to support 32-bit colors, including alpha.
+* Fixed OpenFL line height issues by rolling back FreeType submodule to version 2.9.1.
+
+8.2.0 (10/21/2024)
+------------------
+
+* Added Apple Silicon (ARM64) support for macOS target.
+* Added new `hlc` target to support compiling for HashLink/C. Both generates C code and compiles to an executable (requires Haxe 4.3.4 or newer).
+* Added support for inserting attributes into the `<application/>` or `<activity/>` elements of _AndroidManifest.xml_
+* Added `createPerspective()` to `Matrix4`.
+* Added `removeLibrary()` to `lime.utils.Assets`, which removes a library, but makes unloading optional.
+* Added `SINGLE_THREADED` mode to `ThreadPool`, which is used by default when threading is not available.
+* Added `workLoad` property to `ThreadPool` to limit total time spent per frame on green threads.
+* Added optional `-noalias` flag to `lime setup` to skip creating the **lime** executable alias.
+* Added optional `-nosign` flag to `lime build ios` to skip code signing when targeting iOS.
+* Added support for `-64` flag to force compiling for 64-bit Raspberry Pi.without requiring a custom template.
+* Added option to configure `preserveDrawingBuffer` on HTML5 target.
+* Added LZMA compression to HTML5 target.
+* Added automatic deletion of "stale" assets and dependency files.
+* Added `VIEW` intents on Android target.
+* Added support for `-mingw` flag when cross-compiling to Windows from another operating system.
+* Added support for `-cpp` flag when cross-compiling to Linux from another operating system (requires homebrew-macos-cross-toolchains on macOS).
+* Added support for `tsa` option in `<config:air>` to pass timestamp URL to Adobe AIR's adt tool.
+* Fixed `lime display` command incorrectly printing old _.hxml_ content after _project.xml_ file has been modified, skipping requirement to build project or restart editor to get valid code intelligence.
+* Fixed HashLink _.app_ bundles on macOS to include all Homebrew library dependencies, so that they run on computers without Homebrew.
+* Fixed `@android:style/Theme.NoTitleBarnull` in generated _AndroidManifest.xml_.
+* Fixed `Image` in a web worker by storing it as `DATA` type.
+* Fixed cURL C++ to Haxe callbacks when targeting HashLink.
+* Fixed icon generation for Android target with `accept-file-intent` config.
+* Fixed exception in Lime tools when resolving full path of Neko _.n_ file.
+* Fixed keyboard input incorrectly getting enabled by default when creating a new window, which could show an IME when unexpected.
+* Fixed `ALC.getContextsDevice()` when targeting HashLink.
+* Fixed potentially uninitialized values in `Matrix3`.
+* Fixed wrong type for `Socket.objectEncoding` in Flash/AIR externs.
+* Fixed `BackgroundWorker` not using threads on HashLink.
+* Improved support for Raspberry Pi 64-bit builds.
+* Changed custom `haxe.Timer` to fall back to the original in a macro context.
+* Changed `Promise` to remove `@:generic` when in a macro context.
+* Changed `Matrix3` to be an abstract over `Float32Array`, similar to `Matrix4`.
+* Changed Raspberry Pi keyboard shortcut to exit to Ctrl + Esc.
+* Changed `-64` and `-32` flags for Intel architectures to `-x86_64` and `-x86_32` to make their purpose more clear (the old flags still work, for now).
+* Removed Joystick trackball APIs because they is supported only on Linux, with a single piece of hardware, and will be removed from SDL 3.
+* Removed ARMV5 architecture from Android rebuilds by default because hxcpp doesn't support it with NDK versions >= 20.
+* Removed 32-bit _liblime.iphonesim.a_ as a default binary because 32-bit iOS is no longer supported by Apple.
+* Updated Cairo submodule to version 1.17.6 and point to upstream repository instead of fork.
+* Updated cURL submodule to version 7.83.1 and point to upstream repository instead of fork.
+* Updated efsw submodule to version 1.2.0 and point to upstream repository instead of fork.
+* Updated FreeType submodule to version 2.12.1 and point to upstream repository instead of fork.
+* Updated HarfBuzz submodule to version 6.0.0 and point to upstream repository instead of fork.
+* Updated libpng submodule to version 1.6.37 and point to upstream repository instead of fork.
+* Updated libjpg-turbo submodule to version 2.1.3 and point to upstream repository instead of fork.
+* Updated libvpx submodule to version 1.11.0 and point to upstream repository instead of fork.
+* Updated libwebm submodule to version 1.0.0.28 and point to upstream repository instead of fork.
+* Updated Mbed TLS submodule to version 2.28.7 and point to upstream repository instead of fork.
+* Updated MojoAL submodule to commit e08dbf3 and point to upstream repository instead of fork.
+* Updated Ogg submodule to version 1.3.5 and point to upstream repository instead of fork.
+* Updated OpenAL-Soft submodule to version 1.20.1 and point to upstream repository instead of fork.
+* Updated Pixman submodule to version 0.42.2 and point to upstream repository instead of fork.
+* Updated SDL submodule to version 2.24.0 and point to upstream repository instead of fork.
+* Updated Tinyfiledialogs submodule to version 3.8.8 (still uses fork due to SourceForge limitationss).
+* Updated Vorbis submodule to version 1.3.7 and point to upstream repository instead of fork.
+* Updated zlib submodule to version 1.2.12 and point to upstream repository instead of fork.
+
+8.1.3 (07/22/2024)
+------------------
+
+* Fixed Unicode conversion issues with various APIs, including as clipboard, window text, file dialogs, and fonts.
+* Fixed Android builds with the `-emulator` flag that broke when using newer Android SDKs.
+* Fixed "Could not link to neko" error message on macOS when lime.ndll is built with Xcode 15.
+* Fixed system environment variables with the same name as common targets conflicting with other targets.
+* Fixed `<echo/>` and `<log/>` output confusing Haxe's completion server. Now skipped when `display` is defined.
+* Fixed `Clipboard.text` incorrectly getting cleared to null when targeting HTML5.
+* Fixed integer value parsing in _project.xml_, including immediately reporting errors for invalid values.
+* Fixed incorrect path discovery for NDLL files that found source directory instead.
+* Fixed missing error message if HXP project class name does not match file name.
+* Fixed unspecified behavior from `null` keys in `ObjectPool`.
+* Fixed some issues when running Haxe built natively for Apple Silicon.
+* Fixed missing cancellation of vibration on Android when app is paused or destroyed.
+* Fixed static linking of native curl library on macOS.
+* Fixed deprecation warnings in Android Gradle builds.
+
+8.1.2 (03/13/2024)
+------------------
+
+* Fixed error handling when failing to get joystick information in html5.
+* Fixed error handling when creating `openfl` alias on Linux.
+* Fixed error handling when getting information about Haxelibs.
+* Fixed error when loading fonts in HL.
+* Fixed error when loading grouped music/sound assets.
+* Fixed errors when building on Apple Silicon without Rosetta.
+* Fixed assets not being loaded when using nested asset tags (e.g., `<assets path="assets"> <image path="MyImage.png" /> </assets>`).
+* Fixed VC runtime potentially not being bundled into HL apps built on Windows.
+* Fixed error in `AssetsMacro` when building with Haxe 4.3.4 or newer.
+* Fixed crash on iOS during network operations.
+* Updated howler.js to 2.2.3.
+* Removed ARMv7 architecture from Android default architectures.
+* Removed deprecated ARMv7 architecture from iOS default architectures.
+
+8.1.1 (11/08/2023)
+------------------
+
+* Fixed subset of characters escaped in file paths to fix Android builds on Windows.
+* Fixed playback of very long sounds by changing arithmetic to avoid integer overflow.
+
+8.1.0 (10/16/2023)
+------------------
+
+* Added `visible` property to `Window` to allow it to be shown and hidden
+* Added `opacity` property to `Window`
+* Added `minWidth`, `minHeight`, `maxWidth`, `maxHeight`, `setMinSize()`, and `setMaxSize()` to `Window`
+* Added new `onShow` and `onHide` events to `Window`
+* Added support for _include.hxp_ file in libraries, similar to _include.xml_
+* Added support for multiple file extension filters on `FileDialog` operations
+* Added `-eval` option to run Lime tools without Neko
+* Added `-terser` option to Lime tools for html5 builds to optionally use Terser minifier
+* Added `-npx` option to Lime tools to run minifiers, or Electron, using `npx` instead of the bundled versions
+* Updated the bundled version of Node.js to 18 LTS for the html5 target's HTTP server
+* Exposed more information to _project.xml_, such as `${project.host}` and `${config.android.target-sdk-version}`
+* Updated the Android Gradle plugin
+* Disabled pointer tagging on Android
+* Fixed issues in `emscripten` target and renamed it to `webassembly`
+* Fixed unpopulated `responseData` on `HTTPRequest` when server returns error status code
+* Fixed `Clipboard` contents being empty when app starts up on Windows and macOS
+* Fixed Unicode string conversion for `alert()` method on `Window` on HashLink target
+* Fixed asset cache clearing when unloading asset library
+* Fixed incorrect timer pause and resume behavior when window goes into background and back to foreground
+* Fixed _.app_ file extension for macOS when building Adobe AIR captive runtime bundle
+* Fixed incorrect "Lime Application" window title for Adobe AIR applications
+* Fixed null check when opening file with `FileDialog`
+* Fixed expired Adobe AIR debug certificate
+* Fixed Haxe 3 compatibility for enum abstracts
+* Fixed running native apps with current working directory that does not match the program directory
+* Fixed assets being incorrectly located from `Sys.programPath()` instead of `System.applicationDirectory`
+* Fixed timing on html5 target by using `performance.now()` so that system clock changes don't cause issues
+* Fixed parsing of JNI class names
+* Fixed cleanup when windows are closed and the Lime application exits
+* Removed the defunct Kha backend
+
 8.0.2 (05/31/2023)
 ------------------
 

@@ -6,6 +6,7 @@ import js.Browser;
 import js.html.VisualViewport;
 import lime.app.Application;
 import lime.media.AudioManager;
+import lime.system.Orientation;
 import lime.system.Sensor;
 import lime.system.SensorType;
 import lime.ui.GamepadAxis;
@@ -331,7 +332,7 @@ class HTML5Application
 
 			if (!window.requestAnimationFrame)
 				window.requestAnimationFrame = function(callback, element) {
-					var currTime = new Date().getTime();
+					var currTime = window.performance.now();
 					var timeToCall = Math.max(0, 16 - (currTime - lastTime));
 					var id = window.setTimeout(function() { callback(currTime + timeToCall); },
 					  timeToCall);
@@ -347,7 +348,7 @@ class HTML5Application
 			window.requestAnimFrame = window.requestAnimationFrame;
 		");
 
-		lastUpdate = Date.now().getTime();
+		lastUpdate = Browser.window.performance.now();
 
 		handleApplicationEvent();
 
@@ -355,6 +356,27 @@ class HTML5Application
 	}
 
 	public function exit():Void {}
+
+	public function getDeviceOrientation():Orientation
+	{
+		if (Browser.window.screen.orientation != null)
+		{
+			switch (Browser.window.screen.orientation.type)
+			{
+				case PORTRAIT_PRIMARY:
+					return PORTRAIT;
+				case PORTRAIT_SECONDARY:
+					return PORTRAIT_FLIPPED;
+				case LANDSCAPE_PRIMARY:
+					return LANDSCAPE;
+				case LANDSCAPE_SECONDARY:
+					return LANDSCAPE_FLIPPED;
+				default:
+					// fall through to unknown
+			}
+		}
+		return UNKNOWN;
+	}
 
 	private function handleApplicationEvent(?__):Void
 	{
@@ -367,7 +389,7 @@ class HTML5Application
 
 		updateGameDevices();
 
-		currentUpdate = Date.now().getTime();
+		currentUpdate = Browser.window.performance.now();
 
 		if (currentUpdate >= nextUpdate)
 		{

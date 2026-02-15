@@ -20,6 +20,7 @@ import lime.graphics.opengl.GLTexture;
 import lime.graphics.opengl.GLUniformLocation;
 import lime.graphics.opengl.GL;
 import lime.graphics.RenderContextType;
+import lime.system.CFFI;
 import lime.utils.DataPointer;
 import lime.utils.Float32Array;
 import lime.utils.Int32Array;
@@ -1473,7 +1474,7 @@ class NativeOpenGLRenderContext
 			return {
 				size: result.size,
 				type: result.type,
-				name: @:privateAccess String.fromUTF8(result.name)
+				name: CFFI.stringValue(result.name)
 			};
 		}
 		else
@@ -1498,7 +1499,7 @@ class NativeOpenGLRenderContext
 			return {
 				size: result.size,
 				type: result.type,
-				name: @:privateAccess String.fromUTF8(result.name)
+				name: CFFI.stringValue(result.name)
 			};
 		}
 		else
@@ -1532,11 +1533,8 @@ class NativeOpenGLRenderContext
 	public function getActiveUniformBlockName(program:GLProgram, uniformBlockIndex:Int):String
 	{
 		#if (lime_cffi && (lime_opengl || lime_opengles) && !macro)
-		var result = NativeCFFI.lime_gl_get_active_uniform_block_name(__getObjectID(program), uniformBlockIndex); tr([ __getObjectID(program), uniformBlockIndex ]);
-		#if hl
-		var result = @:privateAccess String.fromUTF8(result);
-		#end
-		return result;
+		var result = NativeCFFI.lime_gl_get_active_uniform_block_name(__getObjectID(program), uniformBlockIndex);
+		return CFFI.stringValue(result);
 		#else
 		return null;
 		#end
@@ -1989,11 +1987,8 @@ class NativeOpenGLRenderContext
 	public function getProgramInfoLog(program:GLProgram):String
 	{
 		#if (lime_cffi && (lime_opengl || lime_opengles) && !macro)
-		var result = NativeCFFI.lime_gl_get_program_info_log(__getObjectID(program)); tr([ __getObjectID(program) ]);
-		#if hl
-		var result = @:privateAccess String.fromUTF8(result);
-		#end
-		return result;
+		var result = NativeCFFI.lime_gl_get_program_info_log(__getObjectID(program));
+		return CFFI.stringValue(result);
 		#else
 		return null;
 		#end
@@ -2127,11 +2122,8 @@ class NativeOpenGLRenderContext
 	public function getShaderInfoLog(shader:GLShader):String
 	{
 		#if (lime_cffi && (lime_opengl || lime_opengles) && !macro)
-		var result = NativeCFFI.lime_gl_get_shader_info_log(__getObjectID(shader)); tr([ __getObjectID(shader) ]);
-		#if hl
-		var result = (result != null) ? @:privateAccess String.fromUTF8(result) : null;
-		#end
-		return result;
+		var result = NativeCFFI.lime_gl_get_shader_info_log(__getObjectID(shader));
+		return CFFI.stringValue(result);
 		#else
 		return null;
 		#end
@@ -2154,11 +2146,8 @@ class NativeOpenGLRenderContext
 	public function getShaderSource(shader:GLShader):String
 	{
 		#if (lime_cffi && (lime_opengl || lime_opengles) && !macro)
-		var result = NativeCFFI.lime_gl_get_shader_source(__getObjectID(shader)); tr([ __getObjectID(shader) ]);
-		#if hl
-		var result = @:privateAccess String.fromUTF8(result);
-		#end
-		return result;
+		var result = NativeCFFI.lime_gl_get_shader_source(__getObjectID(shader));
+		return CFFI.stringValue(result);
 		#else
 		return null;
 		#end
@@ -2167,11 +2156,8 @@ class NativeOpenGLRenderContext
 	public function getString(name:Int):String
 	{
 		#if (lime_cffi && (lime_opengl || lime_opengles) && !macro)
-		var result = NativeCFFI.lime_gl_get_string(name); tr([ name, " = " + result ]);
-		#if hl
-		var result = @:privateAccess String.fromUTF8(result);
-		#end
-		return result;
+		var result = NativeCFFI.lime_gl_get_string(name);
+		return CFFI.stringValue(result);
 		#else
 		return null;
 		#end
@@ -2180,11 +2166,8 @@ class NativeOpenGLRenderContext
 	public function getStringi(name:Int, index:Int):String
 	{
 		#if (lime_cffi && (lime_opengl || lime_opengles) && !macro)
-		var result = NativeCFFI.lime_gl_get_stringi(name, index); tr([ name, index, " = " + result ]);
-		#if hl
-		var result = @:privateAccess String.fromUTF8(result);
-		#end
-		return result;
+		var result = NativeCFFI.lime_gl_get_stringi(name, index);
+		return CFFI.stringValue(result);
 		#else
 		return null;
 		#end
@@ -2322,7 +2305,7 @@ class NativeOpenGLRenderContext
 			return {
 				size: result.size,
 				type: result.type,
-				name: @:privateAccess String.fromUTF8(result.name)
+				name: CFFI.stringValue(result.name)
 			};
 		}
 		else
