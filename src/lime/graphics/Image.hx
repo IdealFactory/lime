@@ -9,6 +9,7 @@ import lime._internal.format.Base64;
 import lime._internal.format.BMP;
 import lime._internal.format.JPEG;
 import lime._internal.format.PNG;
+import lime._internal.format.WebP;
 import lime._internal.graphics.ImageCanvasUtil;
 import lime._internal.graphics.ImageDataUtil;
 import lime.app.Application;
@@ -523,6 +524,9 @@ class Image
 
 			case ImageFileFormat.BMP:
 				return BMP.encode(this);
+
+			case ImageFileFormat.WEBP:
+				return WebP.encode(this, quality);
 
 			default:
 		}

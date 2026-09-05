@@ -19,4 +19,9 @@ enum ImageFileFormat
 		An image file encoded in the PNG file format
 	**/
 	PNG;
+
+	/**
+		An image file encoded in the WebP file format
+	**/
+	WEBP;
 }
