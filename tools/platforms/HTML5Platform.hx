@@ -520,6 +520,8 @@ class HTML5Platform extends PlatformTarget
 								if (hasFormat[2]) urls.push("url('" + embeddedAsset.targetPath + ".svg#" + StringTools.urlEncode(embeddedAsset.fontName)
 									+ "') format('svg')");
 
+								embeddedAsset.fontURL = embeddedAsset.targetPath + ext;
+
 								var fontFace = "\t\t@font-face {\n";
 								fontFace += "\t\t\tfont-family: '" + embeddedAsset.fontName + "';\n";
 								// if (hasFormat[1]) fontFace += "\t\t\tsrc: url('" + embeddedAsset.targetPath + ".eot');\n";

@@ -16,6 +16,8 @@ import lime.utils.UInt8Array;
 #if (js && html5)
 import js.html.CanvasElement;
 import js.html.CanvasRenderingContext2D;
+import js.html.FontFace;
+import js.html.FontFaceSet;
 import js.html.SpanElement;
 import js.Browser;
 #end
@@ -635,12 +637,29 @@ class Font
 		__init = true;
 	}
 
+	#if (js && html5)
+	@:noCompletion private function __registerFace():Void
+	{
+		var fonts:FontFaceSet = untyped Browser.document.fonts;
+		if (__fontPath == null || fonts == null) return;
+
+		var faces:Array<FontFace> = js.Syntax.code("Array.from({0})", fonts);
+		for (face in faces)
+		{
+			if (StringTools.replace(StringTools.replace(face.family, "'", ""), "\"", "") == name) return;
+		}
+
+		fonts.add(new FontFace(name, "url('" + __fontPath + "')"));
+	}
+	#end
+
 	@:noCompletion private function __loadFromName(name:String):Future<Font>
 	{
 		var promise = new Promise<Font>();
 
 		#if (js && html5)
 		this.name = name;
+		__registerFace();
 
 		var userAgent = Browser.navigator.userAgent.toLowerCase();
 		var isSafari = (userAgent.indexOf(" safari/") >= 0 && userAgent.indexOf(" chrome/") < 0);
