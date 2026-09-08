@@ -1658,8 +1658,8 @@ class Image
 	{
 		if (bytes == null || bytes.length < 6) return false;
 
-		var header = bytes.getString(0, 6);
-		return (header == "GIF87a" || header == "GIF89a");
+		return bytes.get(0) == "G".code && bytes.get(1) == "I".code && bytes.get(2) == "F".code && bytes.get(3) == "8".code
+			&& (bytes.get(4) == "7".code || bytes.get(4) == "9".code) && bytes.get(5) == "a".code;
 	}
 
 	private static function __isJPG(bytes:Bytes):Bool
@@ -1684,7 +1684,8 @@ class Image
 	{
 		if (bytes == null || bytes.length < 16) return false;
 
-		return (bytes.getString(0, 4) == "RIFF" && bytes.getString(8, 4) == "WEBP");
+		return bytes.get(0) == "R".code && bytes.get(1) == "I".code && bytes.get(2) == "F".code && bytes.get(3) == "F".code
+			&& bytes.get(8) == "W".code && bytes.get(9) == "E".code && bytes.get(10) == "B".code && bytes.get(11) == "P".code;
 	}
 
 	// Get & Set Methods
